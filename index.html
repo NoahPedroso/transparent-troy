@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Transparent Troy - Who Represents Me?</title>
+
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="styles.css">
+
+	<!-- Leaflet - Interactive Maps -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    	integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    	crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    	integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    	crossorigin=""></script>
+</head>
+<body>
+	<h1>Transparent Troy</h1>
+	<h2>Find your city council member</h2>
+	<p>About: This is a quick tool meant to help citizens of Troy, NY find the person who represents them in their city council. I'm making this because I thought the tools already available online were not up-to-par with what many people come to expect their digital experience to be like. It is modeled after the "find my congressperson" and "find my assemblymember" sites provided by the US congress and the New York State Assembly. </p>
+	<p>Sources: My data comes from the rensselaer county website's public shape files: https://www.rensco.com/589/District-Maps <a href="https://www.rensco.com/DocumentCenter/View/4029/052024_Rensco_ElectionDistricts-ZIP">(actual download)</a>. It has information for every election district in rensselaer county, which of course includes Troy. This project basically just takes that data and adds an interactive wrapper around it, some information, and makes it troy focused. Troy election districts static map: https://troyny.gov/DocumentCenter/View/1731/Election-District-Map-2023-PDF and https://troyny.gov/315/City-Council </p>
+	<p> NOTES: I could not find the city council district shapefiles themselves, so I am just relying on the eleciton distrit data and static maps of the city council districts, as the election districts seem to be fully contained within city council districts. I hope to find a source telling me that will always be the case. See the SOURCE section to see the static maps. </p>
+	<p>There should be a map below this...</p>
+
+	<!-- The Map -->
+	<div class="map-container">
+		<div id="map"></div>
+	</div>
+
+	<!-- Using type module allows us to use top-level await. Unsure what other reason to use it.
+	 Using defer to allow full page to render. Also need to learn more about that. -->
+	<script type="module" src="main.js" defer></script>
+</body>
+</html>

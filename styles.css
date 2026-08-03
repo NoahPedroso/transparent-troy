@@ -1,0 +1,16 @@
+/* 
+ * styles.css
+ */
+
+.map-container {
+    padding: 1em;
+}
+
+/* Leaflet requires an id on the map element:
+    https://leafletjs.com/examples/quick-start/#preparing-your-page
+    "Put a div element with a certain id where you want your map to be"
+    "Make sure the map container has a defined height"
+*/
+#map {
+    height: 60vh;
+}

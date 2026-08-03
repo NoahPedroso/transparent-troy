@@ -1,0 +1,15 @@
+/* 
+ * reset.css
+ * Resets any annoying styling we don't want that is set by most popular browsers.
+ * A lot of this is taken from Josh Comeau's "A Modern CSS Reset"
+ *  https://www.joshwcomeau.com/css/custom-css-reset
+ * 
+ * This should really be included in every page.
+ */
+
+
+/* Remove default margin 
+   (dialogs use margin for centering, so those are exempt) */
+*:not(dialog) {
+  margin: 0;
+}
