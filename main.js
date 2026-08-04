@@ -78,23 +78,24 @@ const groupedDistricts = groupByCouncilDistrict(electionDistricts);
 console.log("Grouped Districts:", groupedDistricts);
 
 
-/* TODO: Create unified polygons of the borders of groups of EDs. 
-    Can use turf.js or https://github.com/w8r/martinez but probably shouldn't roll my own */
-const allCoordinatesInGroup = groupedDistricts["1ST"].map(ed => ed.coordinates);
-console.log(allCoordinatesInGroup);
-// Election districts should have no holes in them. Doesn't affect us much but good to check
-const existsEDWithHole = allCoordinatesInGroup.some(coordList => coordList.length > 1);
-if (existsEDWithHole) console.warn("An ED has a hole");
-else console.info("All EDs are single ring polygons");
-
-// // Discard any possible holes, only take outermost ring (assuming outermost is first)
-// const outerRings = allCoordinatesInGroup.map(threeDeep => threeDeep[0]);
-// console.log(outerRings); 
-
-// Union
-console.log("Polygon of ring:", turf.polygon(allCoordinatesInGroup[0]));
-const union = turf.union(turf.featureCollection(allCoordinatesInGroup.map(ring => turf.polygon(ring))));
-console.log("Union:", union);
+/* Use turf.js to create unified polygons of the borders of groups of EDs. 
+    NOTE: https://github.com/w8r/martinez may be better here (smaller) */
+const councilDistrictFeatures = turf.featureCollection([]);
+Object.entries(groupedDistricts).forEach(([key, val]) => {
+    // Assuming that the key looks like "NTH", we extract the N 
+    // TODO: Add verification that the data looks like this
+    const councilDistrictNumber = key[0];
+    councilDistrictFeatures.features.push(turf.union(
+        turf.featureCollection(val.map(ed => turf.polygon(ed.coordinates))),
+        {
+            // Keep council district in feature properties. Any other useful info is tied to council district number
+            properties: {
+                district: Number(councilDistrictNumber)
+            }
+        })
+    );
+});
+console.log("Unioned features:", councilDistrictFeatures);
 
 /**
  * MAPPING
@@ -110,11 +111,16 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Draw districts
 
-L.geoJSON(union, {
+// TODO: this function should show the info for each city council member 
+function addFeatureInfo(feature, layer) {
+    layer.bindPopup(`Council District: ${feature.properties.district}`);
+}
+
+L.geoJSON(councilDistrictFeatures, {
     style: {
         color: '#d10e0e',
         weight: 1,
         fillOpacity: 0.4
     },
-    onEachFeature: () => {return} // TODO: this function should show the info for each city council member 
+    onEachFeature: addFeatureInfo
 }).addTo(map);
