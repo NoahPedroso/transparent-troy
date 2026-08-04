@@ -80,6 +80,21 @@ console.log("Grouped Districts:", groupedDistricts);
 
 /* TODO: Create unified polygons of the borders of groups of EDs. 
     Can use turf.js or https://github.com/w8r/martinez but probably shouldn't roll my own */
+const allCoordinatesInGroup = groupedDistricts["1ST"].map(ed => ed.coordinates);
+console.log(allCoordinatesInGroup);
+// Election districts should have no holes in them. Doesn't affect us much but good to check
+const existsEDWithHole = allCoordinatesInGroup.some(coordList => coordList.length > 1);
+if (existsEDWithHole) console.warn("An ED has a hole");
+else console.info("All EDs are single ring polygons");
+
+// // Discard any possible holes, only take outermost ring (assuming outermost is first)
+// const outerRings = allCoordinatesInGroup.map(threeDeep => threeDeep[0]);
+// console.log(outerRings); 
+
+// Union
+console.log("Polygon of ring:", turf.polygon(allCoordinatesInGroup[0]));
+const union = turf.union(turf.featureCollection(allCoordinatesInGroup.map(ring => turf.polygon(ring))));
+console.log("Union:", union);
 
 /**
  * MAPPING
@@ -92,17 +107,14 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-// fetch(DATA_FILENAME)
-//     .then(res => res.json())
-//     .then(data => {
-//         L.geoJSON(data, {
-//             style: {
-//                 color: '#333',
-//                 weight: 1,
-//                 fillOpacity: 0.4
-//             },
-//             onEachFeature: (feature, layer) => {
-//                 layer.bindPopup(`ED: ${feature.properties.ED}`);
-//             }
-//         }).addTo(map);
-//     });
+
+// Draw districts
+
+L.geoJSON(union, {
+    style: {
+        color: '#d10e0e',
+        weight: 1,
+        fillOpacity: 0.4
+    },
+    onEachFeature: () => {return} // TODO: this function should show the info for each city council member 
+}).addTo(map);
