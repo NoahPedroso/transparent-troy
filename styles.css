@@ -4,6 +4,10 @@
 
 .map-container {
     padding: 1em;
+    
+    /* Child Positioning */
+    display: grid;
+    place-items: center;
 }
 
 /* Leaflet requires an id on the map element:
@@ -13,4 +17,5 @@
 */
 #map {
     height: 60vh;
+    width:500px;
 }
