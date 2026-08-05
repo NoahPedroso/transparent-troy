@@ -1,0 +1,112 @@
+{
+    "1": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "image": "https://i0.wp.com/philfortroy.com/wp-content/uploads/2025/09/Headshot.png?w=3840&ssl=1",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    },
+    "2": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    },
+    "3": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    },
+    "4": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    },
+    "5": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    },
+    "6": {
+        "member": {
+            "first_name": "Phil",
+            "last_name": "DiLorenzo",
+            "address": "",
+            "committees": [
+                "General Services Committee",
+                "Planning Committee",
+                "Science and Technology Committee"
+            ],
+            "chaired_committees": [
+                "Planning Committee"
+            ],
+            "phone": "",
+            "email": "",
+            "term_end_date": ""
+        }
+    }
+    // At large?
+}
