@@ -1,7 +1,53 @@
 /* 
  * styles.css
+ *
+ * TODO: use a grid on the whole page to define shape and keep everything centered
  */
 
+/* Styling */
+html {
+    /* Site colors */
+    /* Troy colors sourced from eyedropper on random google image:
+        https://www.redbubble.com/i/art-board-print/Troy-Logo-by-beck-dr/36641602/xpmg */
+    --troy-yellow: #e4a023;
+    --troy-blue: #104686;
+    --troy-red: #ad141e;
+
+    --main: hsl(from var(--troy-blue) h s 5);
+    --text: hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50)); /* contrast-color(var(--main)); */
+    --accent: hsl(from var(--troy-yellow) h s l);
+}
+body {
+    background-color: var(--main);
+    color: var(--text);
+}
+
+h1,h2,h3,h4,h5,h6 {
+    justify-self: center;
+    color: var(--accent);
+}
+
+a {
+    color: var(--troy-yellow);
+}
+
+nav {
+    /* Center nav links */
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+
+    /* Positioning - Always on the top of the screen */
+    position: sticky;
+    top: 0;
+
+    /* Aesthetics */
+    background-color: inherit;
+    /* Separate nav visually from content */
+    border-bottom: 2px solid var(--text); /* TODO: Don't like using "--text for not text */
+}
+
+/* MAP */
 .map-container {
     padding: 1em;
     
@@ -18,4 +64,7 @@
 #map {
     height: 60vh;
     width:500px;
+
+    /* Aesthetics */
+    border: solid var(--troy-yellow) 2px;
 }
