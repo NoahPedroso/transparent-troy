@@ -43,3 +43,33 @@ L.geoJSON(councilDistrictFeatures, {
     },
     onEachFeature: addFeatureInfo
 }).addTo(map);
+
+
+// geolocation testing
+function locationSuccess(position) {
+    console.log("Successfully got position:", JSON.stringify(position.toJSON()));
+    // TODO: display position on map, get information (BE CAREFUL WITH ACCURACY)
+}
+
+function locationError(posError) {
+    console.warn("Failed to get location:", posError.code, posError.message);
+    // TODO: display message to user based on denial permissions
+    // TODO: Use a <geolocation> HTML element when widely supported. https://caniuse.com/wf-geolocation-element
+
+    switch(posError.code) {
+        // https://w3c.github.io/geolocation/#constants
+        case 1: // PERMISSION_DENIED
+            console.warn("The user did not want to share");
+            break;
+        case 2: // POSITION_UNAVAILABLE
+            console.error("Something went wrong");
+            break;
+        case 3: // TIMEOUT
+            console.error("Took too long");
+            break;
+        default:
+            console.error("We hit none of these cases");
+    }
+}
+
+navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {enableHighAccuracy: false});
