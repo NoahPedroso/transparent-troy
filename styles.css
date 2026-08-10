@@ -62,8 +62,10 @@ nav {
     "Make sure the map container has a defined height"
 */
 #map {
+    min-height: 450px;
     height: 60vh;
-    width:500px;
+    max-width:500px;
+    width: 100%;
 
     /* Aesthetics */
     border: solid var(--troy-yellow) 2px;
