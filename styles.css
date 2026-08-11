@@ -40,6 +40,7 @@ nav {
     /* Positioning - Always on the top of the screen */
     position: sticky;
     top: 0;
+    z-index: 1;
 
     /* Aesthetics */
     background-color: inherit;
@@ -49,6 +50,12 @@ nav {
 
 /* MAP */
 .map-container {
+    /* Leaflet uses lots of z-index to manage layers
+    This just bundles all of that up at one new stacking context,
+    and deliberately places it under the nav's z-index */
+    isolation: isolate;
+    z-index: 0;
+
     padding: 1em;
     
     /* Child Positioning */
