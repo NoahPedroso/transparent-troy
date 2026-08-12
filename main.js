@@ -7,6 +7,8 @@
 
 // Imports
 import { TROY_CENTER, TROY_POLYGON, councilDistrictFeatures } from "./etl.js";
+import districtData from './data/district_info.json' with { type: 'json' };
+console.log("data:", districtData, districtData[1]);
 /**
  * MAPPING
  */
@@ -91,13 +93,23 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
 // Draw districts
+function districtClickHandler(feature, layer) {
+    // Bind the click event to each individual feature layer
+    layer.on('click', function (e) {
+        console.log("Feature clicked:", feature);
+        
+        // Access properties of the clicked feature
+        const properties = feature.properties;
+        console.log("Properties:", properties);
+        
+        // Access the clicked layer itself
+        const clickedLayer = e.target; 
 
-// TODO: this function should show the info for each city council member 
-function addFeatureInfo(feature, layer) {
-    layer.bindPopup(`Council District: ${feature.properties.district}`);
+        renderDistrictInfo(properties.district);
+    });
 }
-
 
 L.geoJSON(TROY_POLYGON, {
     style: {
@@ -113,7 +125,7 @@ L.geoJSON(councilDistrictFeatures, {
         weight: 5,
         fillOpacity: 0.4
     },
-    onEachFeature: addFeatureInfo
+    onEachFeature: districtClickHandler
 }).addTo(map);
 
 
@@ -140,17 +152,26 @@ function getDistrictFromCoords(coordinates) {
 }
 
 function renderDistrictInfo(districtNumber) {
-    // TODO: Ensure this works when re-entering location. innerHTML wipe may cause issues...
-    console.log(districtNumber);
-
     // TODO: A11Y needs aria alert polite or smth...
-    const infoSection = document.querySelector("section.district-info");
-    
-    if (districtNumber > 0) {
-        infoSection.querySelector(".district-number").textContent = districtNumber;
+
+    const districtObj = districtData[districtNumber];
+    const infoSection = document.querySelector(".district-info section");
+    const emptyMessage = document.querySelector(".district-info p");
+    const $ = selector => infoSection.querySelector(selector);
+
+    if (!districtObj) {
+        emptyMessage.hidden = false;
+        infoSection.hidden = true;
     } else {
-        infoSection.innerHTML = ""
-        infoSection.textContent = "You appear to be outside Troy. Come back soon!"
+        emptyMessage.hidden = true;
+        infoSection.hidden = false;
+
+        $(".district-number").textContent = districtNumber;
+        $(".councilmember").textContent = `${districtObj.member.firstName} ${districtObj.member.lastName}`;
+        $(".phone-number").textContent = districtObj.member.phoneNumber;
+        $(".address").textContent = districtObj.member.address;
+        $(".portrait").src = districtObj.member.image;
+        $(".portrait").alt = `Councilmember ${districtObj.member.firstName} ${districtObj.member.lastName}`;
     }
 }
 
@@ -160,9 +181,10 @@ function locationSuccess(position) {
     // Add center to map for TESTING
     const testPosArray = TROY_CENTER.geometry.coordinates.reverse();
     // Determine what district the user is in.
-    const districtNumber = getDistrictFromCoords(testPosArray.toReversed());
-    L.marker(testPosArray).addTo(map);
-    map.flyTo(testPosArray, zoomLevel + 1);
+    const districtNumber = getDistrictFromCoords(posArray.toReversed());
+    L.marker(posArray).addTo(map);
+    map.flyTo(posArray, zoomLevel + 1);
+
     renderDistrictInfo(districtNumber);
     // TODO: Consider accuracy radius.
 }
@@ -187,3 +209,6 @@ function locationError(posError) {
             console.error("We hit none of these cases");
     }
 }
+
+
+// TODO: Add a "re-center troy" button that only appears when you choose a location outside troy or just scroll away from troy
