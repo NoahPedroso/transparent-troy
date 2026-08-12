@@ -20,10 +20,12 @@ html {
 body {
     background-color: var(--main);
     color: var(--text);
+
+    display: grid;
+    justify-items: center;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    text-align: center;
     color: var(--accent);
 }
 
@@ -34,8 +36,10 @@ a {
 nav {
     /* Center nav links */
     display: flex;
-    justify-content: center;
     gap: 2em;
+    /* Need border to stay max width, yet items should still be centered. */
+    justify-content: center;
+    width: 100%;
 
     /* Positioning - Always on the top of the screen */
     position: sticky;
@@ -50,17 +54,13 @@ nav {
 
 /* MAP */
 .map-container {
+    /* This container really may not be necessary.
+     Just anticipating I will want a minimal wrapper to not mess with leaflet styles */
     /* Leaflet uses lots of z-index to manage layers
     This just bundles all of that up at one new stacking context,
     and deliberately places it under the nav's z-index */
     isolation: isolate;
     z-index: 0;
-
-    padding: 1em;
-    
-    /* Child Positioning */
-    display: grid;
-    place-items: center;
 }
 
 /* Leaflet requires an id on the map element:
@@ -71,8 +71,7 @@ nav {
 #map {
     min-height: 450px;
     height: 60vh;
-    max-width:500px;
-    width: 100%;
+    min-width:400px;
 
     /* Aesthetics */
     border: solid var(--troy-yellow) 2px;
