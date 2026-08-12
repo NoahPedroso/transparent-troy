@@ -28,10 +28,28 @@
 	<h1>Transparent Troy</h1>
 	<h2>Find your city council member</h2>
 	<!-- TODO: Add geocoding here -->
-	<input type="text" placeholder="Enter your address...">
-	<!-- The Map -->
-	<div class="map-container">
+	<div>
+		<button id="geolocation">Use Current Location</button>
+		<span>or</span>
+		<input type="text" placeholder="Enter your address...">
+	</div>
+	<div class="info-container">
+		<!-- The Map -->
 		<div id="map"></div>
+		<section class="district-info">
+			<h3>
+				<p>You are in:</p>
+				<p>District <span class="district-number"></span></p>
+			</h3>
+			<dl>
+				<dt>Councilmember</dt>
+				<dd class="councilmember"></dd>
+				<dt>Phone number</dt>
+				<dd class="phone-number"></dd>
+				<dt>Address</dt>
+				<dd class="address"></dd>
+			</dl>
+		</section>
 	</div>
 
 	<!-- Using type module allows us to use top-level await. Unsure what other reason to use it.
