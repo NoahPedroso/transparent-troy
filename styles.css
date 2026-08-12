@@ -26,10 +26,15 @@ body {
 
     display: grid;
     justify-items: center;
+    gap: 0.5em;
 }
 
+h1 {
+    font-size: xxx-large;
+}
 h1,h2,h3,h4,h5,h6 {
     color: var(--accent);
+    text-align: center;
 }
 
 a {
@@ -55,15 +60,18 @@ nav {
     border-bottom: 2px solid var(--text); /* TODO: Don't like using "--text for not text */
 }
 
-/* MAP */
-.map-container {
-    /* This container really may not be necessary.
-     Just anticipating I will want a minimal wrapper to not mess with leaflet styles */
+/* Holds the map and the result from the location */
+.info-container {
     /* Leaflet uses lots of z-index to manage layers
     This just bundles all of that up at one new stacking context,
     and deliberately places it under the nav's z-index */
     isolation: isolate;
     z-index: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
 }
 
 /* Leaflet requires an id on the map element:
@@ -74,7 +82,7 @@ nav {
 #map {
     min-height: 450px;
     height: 60vh;
-    min-width:400px;
+    min-width: 320px;
 
     /* Aesthetics */
     border: solid var(--troy-yellow) 2px;

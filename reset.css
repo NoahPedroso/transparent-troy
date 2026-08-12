@@ -8,6 +8,11 @@
  */
 
 
+ /* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Remove default margin 
    (dialogs use margin for centering, so those are exempt) */
 *:not(dialog) {
