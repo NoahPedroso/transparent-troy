@@ -1,112 +1,119 @@
 {
     "1": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
+            "firstName": "Phil",
+            "lastName": "DiLorenzo",
             "image": "https://i0.wp.com/philfortroy.com/wp-content/uploads/2025/09/Headshot.png?w=3840&ssl=1",
-            "address": "",
+            "address": "459 9th Avenue Troy, NY 12182",
             "committees": [
                 "General Services Committee",
                 "Planning Committee",
                 "Science and Technology Committee"
             ],
-            "chaired_committees": [
+            "chairedCommittees": [
                 "Planning Committee"
             ],
-            "phone": "",
-            "email": "",
-            "term_end_date": ""
+            "phone": "802-750-1778,",
+            "email": "Phil.DiLorenzo@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
         }
     },
     "2": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
-            "address": "",
+            "firstName": "Shikole",
+            "lastName": "Struber",
+            "address": "242 2nd Avenue, 2F Troy, NY 12180",
             "committees": [
-                "General Services Committee",
                 "Planning Committee",
+                "Public Safety Committee",
                 "Science and Technology Committee"
             ],
-            "chaired_committees": [
-                "Planning Committee"
+            "chairedCommittees": [
+                "Science and Technology Committee"
             ],
-            "phone": "",
-            "email": "",
-            "term_end_date": ""
+            "phone": "518-227-1138,",
+            "email": "Shikole.Struber@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
         }
     },
     "3": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
-            "address": "",
+            "firstName": "Katie",
+            "lastName": "Spain-McLaren",
+            "address": "42 Woodrow Court Troy, NY 12180",
             "committees": [
-                "General Services Committee",
-                "Planning Committee",
+                "Law Committee",
+                "Public Utilities",
                 "Science and Technology Committee"
             ],
-            "chaired_committees": [
-                "Planning Committee"
+            "chairedCommittees": [
+                "Law Committee"
             ],
             "phone": "",
-            "email": "",
-            "term_end_date": ""
+            "email": "Katie.Mclaren@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
         }
     },
     "4": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
-            "address": "",
+            "firstName": "Noreen",
+            "lastName": "McKee",
+            "address": "129 2nd Street Troy, NY 12180",
             "committees": [
-                "General Services Committee",
+                "Law Committee",
                 "Planning Committee",
-                "Science and Technology Committee"
+                "Public Safety Committee"
             ],
-            "chaired_committees": [
-                "Planning Committee"
+            "chairedCommittees": [
+                "Public Safety Committee"
             ],
-            "phone": "",
-            "email": "",
-            "term_end_date": ""
+            "phone": "518-285-0650,",
+            "email": "Noreen.McKee@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
         }
     },
     "5": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
-            "address": "",
+            "firstName": "Jona",
+            "lastName": "Favreau",
+            "address": "67 Excelsior Avenue Troy, NY 12180",
             "committees": [
                 "General Services Committee",
-                "Planning Committee",
-                "Science and Technology Committee"
+                "Public Safety Committee",
+                "Public Utilities Committee"
             ],
-            "chaired_committees": [
-                "Planning Committee"
+            "chairedCommittees": [
+                "General Services Committee"
             ],
-            "phone": "",
-            "email": "",
-            "term_end_date": ""
+            "phone": "518-285-0579,",
+            "email": "Jona.Favreau@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
         }
     },
     "6": {
         "member": {
-            "first_name": "Phil",
-            "last_name": "DiLorenzo",
-            "address": "",
+            "firstName": "Greg",
+            "lastName": "Campbell-Cohen",
+            "address": "30 Lincoln Avenue, Apt.1 Troy, NY 12180",
             "committees": [
                 "General Services Committee",
-                "Planning Committee",
-                "Science and Technology Committee"
+                "Law Committee",
+                "Public Utilities Committee"
             ],
-            "chaired_committees": [
-                "Planning Committee"
+            "chairedCommittees": [
+                "Public Utilities Committee"
             ],
-            "phone": "",
-            "email": "",
-            "term_end_date": ""
-        }
+            "phone": "518-279-6405",
+            "email": "Greg.Campbell-Cohen@troyny.gov",
+            "termStartDate": "2026-01-01",
+            "termEndDate": "2028-12-31"
+        },
+        "population": 0,
+        "sq_ft": 0
     }
-    // At large?
 }
