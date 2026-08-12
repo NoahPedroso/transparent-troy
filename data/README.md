@@ -24,7 +24,10 @@ Does it automatically update? Do you need to check to see if data changed period
 - Shape
 - Update Frequency
 ### `district_info.json`
-- Source
+- Source(s)
+    - [All Councilmembers](https://troyny.gov/m/directory/department?did=40)
+    - [District 1](https://troyny.gov/m/directory/employee?eid=61)
+    - [District 2](https://troyny.gov/m/directory/employee?eid=63)
 - Description
 - Shape
 - Update Frequency
