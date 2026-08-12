@@ -16,6 +16,9 @@ html {
     --main: hsl(from var(--troy-blue) h s 5);
     --text: hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50)); /* contrast-color(var(--main)); */
     --accent: hsl(from var(--troy-yellow) h s l);
+
+    /* Site fonts */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 body {
     background-color: var(--main);
