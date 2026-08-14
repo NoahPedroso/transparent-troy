@@ -72,6 +72,11 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1em;
+
+    .portrait {
+        width: 10em;
+        border: solid var(--troy-yellow) 2px;
+    }
 }
 
 /* Leaflet requires an id on the map element:

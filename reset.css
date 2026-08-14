@@ -8,7 +8,7 @@
  */
 
 
- /* 1. Use a more-intuitive box-sizing model */
+ /* Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -17,4 +17,10 @@
    (dialogs use margin for centering, so those are exempt) */
 *:not(dialog) {
   margin: 0;
+}
+
+/* Improve media defaults */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
 }
