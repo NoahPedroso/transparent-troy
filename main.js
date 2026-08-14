@@ -152,6 +152,8 @@ function getDistrictFromCoords(coordinates) {
 }
 
 function renderDistrictInfo(districtNumber) {
+    // Display the info box forever once it is shown once.
+    document.querySelector(".district-info").hidden = false;
     // TODO: A11Y needs aria alert polite or smth...
 
     const districtObj = districtData[districtNumber];
