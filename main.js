@@ -173,6 +173,11 @@ L.geoJSON(councilDistrictFeatures, {
 
 // Geolocation
 document.getElementById("geolocation").addEventListener("click", event => {
+    /* TODO: Should we add some sort of cache/debounce or something
+        so we don't spam the OS with requests if the user spams the button?
+        The value should not change very quickly (unless the user is using the app
+        at very high speeds), and this prevents us from doing all the render work each time too. */
+
     navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {enableHighAccuracy: false});
 })
 
