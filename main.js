@@ -204,7 +204,7 @@ function locationSuccess(position) {
     console.log("Successfully got position:", JSON.stringify(position.toJSON()));
     const posArray = [position.coords.latitude, position.coords.longitude];
     // Add center to map for TESTING
-    const testPosArray = TROY_CENTER.geometry.coordinates.reverse();
+    const testPosArray = TROY_CENTER.geometry.coordinates.toReversed();
     // Determine what district the user is in.
     const districtNumber = getDistrictFromCoords(posArray.toReversed());
     updateMarker(posArray, true, position.coords.accuracy);
