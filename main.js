@@ -215,7 +215,7 @@ function renderDistrictInfo(districtNumber) {
         if (onlyDigits.length != 10)
             console.warn(`${onlyDigits} is not 10 digits long! This may cause formatting issues.`);
 
-        return `(${onlyDigits.slice(0,3)})-${onlyDigits.slice(3,6)}-${onlyDigits.slice(6)}`;
+        return `(${onlyDigits.slice(0,3)}) ${onlyDigits.slice(3,6)}-${onlyDigits.slice(6)}`;
     };
 
     // Display the info box forever once it is shown once.
