@@ -8,7 +8,7 @@
 // Imports
 import { TROY_CENTER, TROY_POLYGON, councilDistrictFeatures } from "./etl.js";
 import districtData from './data/district_info.json' with { type: 'json' };
-console.log("data:", districtData, districtData[1]);
+
 /**
  * MAPPING
  */
