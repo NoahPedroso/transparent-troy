@@ -88,6 +88,7 @@ function toLongLat(point) {
 
 // This Leaflet marker will always show the user's selected/current position
 let marker = null;
+let precisionCircle = null;
 /**
  * 
  * @param {*} point coordinates of where the marker should be updated to
@@ -106,7 +107,25 @@ function updateMarker(point, flyTo, precision) {
 
     // Draw precision circle
     if (precision) {
-        L.circle(point, {radius: precision}).addTo(map);
+        // If the precision was given
+        if (precisionCircle) {
+            // If the circle already exists, move it
+            /* Note that this branch should not be common.
+            Precision is basically only passed when using the OS geolocation,
+            and would require the user to physically move for this to be different. */
+            precisionCircle.setLatLng(point);
+            precisionCircle.setRadius(precision);
+        } else {
+            // If the circle does not exist, create it and add it to the map
+            precisionCircle = L.circle(point, {radius: precision}).addTo(map);
+        }
+    } else {
+        // If the precision was not given, clear any existing precision circles
+        if (precisionCircle) {
+            map.removeLayer(precisionCircle);
+            // We don't want to keep a stale version in memory if it isn't actually on the map.
+            precisionCircle = null;
+        }
     }
 
     // Fly to (smooth zoom) the point if desired
