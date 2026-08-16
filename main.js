@@ -88,7 +88,14 @@ function toLongLat(point) {
 
 // This Leaflet marker will always show the user's selected/current position
 let marker = null;
-function updateMarker(point) {
+/**
+ * 
+ * @param {*} point coordinates of where the marker should be updated to
+ * @param {Boolean} [flyTo=false] whether or not to use the Leaflet `flyTo()` function to zoom on the point
+ * @param {Number} [precision] The radius (in meters) from the point to draw a confidence circle around
+ */
+function updateMarker(point, flyTo, precision) {
+    // Draw marker
     if (marker) {
         // If the marker already exists on the map, just update the coordiantes.
         marker.setLatLng(point);
@@ -96,6 +103,18 @@ function updateMarker(point) {
         // If it doesn't exist, create it and add it to the map
         marker = L.marker(point).addTo(map);
     }
+
+    // Draw precision circle
+    if (precision) {
+        L.circle(point, {radius: precision}).addTo(map);
+    }
+
+    // Fly to (smooth zoom) the point if desired
+    if (flyTo) {
+        // TODO: Maybe make the zoom level determined by the accuracy? A smaller number -> larger zoom?
+        map.flyTo(point, zoomLevel + 1);
+    }
+
 }
 
 // Display map
@@ -188,8 +207,7 @@ function locationSuccess(position) {
     const testPosArray = TROY_CENTER.geometry.coordinates.reverse();
     // Determine what district the user is in.
     const districtNumber = getDistrictFromCoords(posArray.toReversed());
-    updateMarker(posArray);
-    map.flyTo(posArray, zoomLevel + 1);
+    updateMarker(posArray, true, position.coords.accuracy);
 
     renderDistrictInfo(districtNumber);
     // TODO: Consider accuracy radius.
