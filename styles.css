@@ -75,6 +75,35 @@ nav {
         width: 10em;
         border: solid var(--troy-yellow) 2px;
     }
+
+    dt {
+        font-size: small;
+        &::after {
+            content: ":"
+        }
+
+        /* if the corresponding description is empty OR
+            if the corresponding description has only one empty anchor  */
+        &:has(+ dd:empty),
+        &:has(+ dd>a:empty:only-child) {
+            /* NOTE: Users may be confused why there is no data displayed when there should be
+                Perhaps instead of hiding the <dd>, we should instead show a "NO DATA" message */
+            display: none;
+        }
+    }
+    dd {
+        font-size: large;
+        font-weight: bold;
+        color: var(--troy-yellow);
+        padding-bottom: 0.5em;
+        
+        /* if the description is empty OR
+            if the description has only one empty anchor  */
+        &:empty,
+        &:has(a:empty:only-child) {
+            padding-bottom: 0;
+        }
+    }
 }
 
 /* Leaflet requires an id on the map element:

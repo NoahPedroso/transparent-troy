@@ -204,6 +204,20 @@ function getDistrictFromCoords(coordinates) {
 }
 
 function renderDistrictInfo(districtNumber) {
+
+    // Helper function
+    let formatPhoneNumber = phoneNumber => {
+        // if the phone number is empty, return an empty string.
+        if (!phoneNumber) return;
+
+        console.log(typeof phoneNumber);
+        const onlyDigits = phoneNumber.replace(/[^0-9]/g, "");
+        if (onlyDigits.length != 10)
+            console.warn(`${onlyDigits} is not 10 digits long! This may cause formatting issues.`);
+
+        return `(${onlyDigits.slice(0,3)})-${onlyDigits.slice(3,6)}-${onlyDigits.slice(6)}`;
+    };
+
     // Display the info box forever once it is shown once.
     document.querySelector(".district-info").hidden = false;
     // TODO: A11Y needs aria alert polite or smth...
@@ -220,12 +234,19 @@ function renderDistrictInfo(districtNumber) {
         emptyMessage.hidden = true;
         infoSection.hidden = false;
 
+        const member = districtObj.member;
         $(".district-number").textContent = districtNumber;
-        $(".councilmember").textContent = `${districtObj.member.firstName} ${districtObj.member.lastName}`;
-        $(".phone-number").textContent = districtObj.member.phoneNumber;
-        $(".address").textContent = districtObj.member.address;
-        $(".portrait").src = districtObj.member.image;
-        $(".portrait").alt = `Councilmember ${districtObj.member.firstName} ${districtObj.member.lastName}`;
+        // TODO: troyny.gov has email and phone icons. I should probably do that...
+        $(".councilmember").textContent = `${member.firstName} ${member.lastName}`;
+        $(".phone-number>a").textContent = formatPhoneNumber(member.phone);
+        $(".phone-number>a").href = `tel:${member.phone}`;
+        $(".email>a").textContent = `${member.email}`;
+        $(".email>a").href = `mailto:${member.email}`;
+        // TODO: Show address on map
+        $(".address").textContent = member.address;
+        // TODO: These images load the first time the district is selected. Some preloading may help.
+        $(".portrait").src = member.image;
+        $(".portrait").alt = `Councilmember ${member.firstName} ${member.lastName}`;
     }
 }
 
