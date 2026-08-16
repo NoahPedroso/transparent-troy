@@ -243,7 +243,8 @@ function renderDistrictInfo(districtNumber) {
         $(".email>a").textContent = `${member.email}`;
         $(".email>a").href = `mailto:${member.email}`;
         // TODO: Show address on map
-        $(".address").textContent = member.address;
+        // If the address is in Troy, omit that info.
+        $(".address").textContent = member.address.split(/\s+Troy,/)[0];
         // TODO: These images load the first time the district is selected. Some preloading may help.
         $(".portrait").src = member.image;
         $(".portrait").alt = `Councilmember ${member.firstName} ${member.lastName}`;
