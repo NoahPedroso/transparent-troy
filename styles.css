@@ -90,3 +90,7 @@ nav {
     /* Aesthetics */
     border: solid var(--troy-yellow) 2px;
 }
+/* Return to Troy button */
+#return {
+    width: 100%;
+}

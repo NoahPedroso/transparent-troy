@@ -29,13 +29,16 @@
 	<h2>Find your city council member</h2>
 	<!-- TODO: Add geocoding here -->
 	<div>
-		<button id="geolocation">Use Current Location</button>
+		<button id="geolocation" type="button">Use Current Location</button>
 		<span>or</span>
 		<input type="text" placeholder="Enter your address...">
 	</div>
 	<div class="info-container">
 		<!-- The Map -->
-		<div id="map"></div>
+		<div>
+			<div id="map"></div>
+			<button id="return" type="button">Return to Troy</button>
+		</div>
 		<div hidden class="district-info">
 			<section>
 				<h3>

@@ -156,6 +156,11 @@ L.geoJSON(councilDistrictFeatures, {
 document.getElementById("geolocation").addEventListener("click", event => {
     navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {enableHighAccuracy: false});
 })
+
+document.getElementById("return").addEventListener("click", event => {
+    // TODO: only display when you choose a location outside troy or just scroll away from troy
+    map.flyTo(TROY_CENTER.geometry.coordinates.toReversed(), zoomLevel);
+});
 /**
  * 
  * @param {Number[]} coordinates The coordinates the user is either currently at or has requested manually (via address or raw coordinates)
@@ -233,6 +238,3 @@ function locationError(posError) {
             console.error("We hit none of these cases");
     }
 }
-
-
-// TODO: Add a "re-center troy" button that only appears when you choose a location outside troy or just scroll away from troy
