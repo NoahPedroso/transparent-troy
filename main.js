@@ -86,6 +86,18 @@ function toLongLat(point) {
     return point;
 }
 
+// This Leaflet marker will always show the user's selected/current position
+let marker = null;
+function updateMarker(point) {
+    if (marker) {
+        // If the marker already exists on the map, just update the coordiantes.
+        marker.setLatLng(point);
+    } else {
+        // If it doesn't exist, create it and add it to the map
+        marker = L.marker(point).addTo(map);
+    }
+}
+
 // Display map
 const zoomLevel = 12
 var map = L.map('map').setView(TROY_CENTER.geometry.coordinates.toReversed(), zoomLevel);
@@ -98,16 +110,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 function districtClickHandler(feature, layer) {
     // Bind the click event to each individual feature layer
     layer.on('click', function (e) {
-        console.log("Feature clicked:", feature);
-        
-        // Access properties of the clicked feature
-        const properties = feature.properties;
-        console.log("Properties:", properties);
-        
-        // Access the clicked layer itself
-        const clickedLayer = e.target; 
-
-        renderDistrictInfo(properties.district);
+        updateMarker(e.latlng);
+        renderDistrictInfo(feature.properties.district);
     });
 }
 
@@ -184,7 +188,7 @@ function locationSuccess(position) {
     const testPosArray = TROY_CENTER.geometry.coordinates.reverse();
     // Determine what district the user is in.
     const districtNumber = getDistrictFromCoords(posArray.toReversed());
-    L.marker(posArray).addTo(map);
+    updateMarker(posArray);
     map.flyTo(posArray, zoomLevel + 1);
 
     renderDistrictInfo(districtNumber);
