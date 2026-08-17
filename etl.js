@@ -91,10 +91,6 @@ Object.entries(groupedDistricts).forEach(([key, val]) => {
 });
 console.log("Unioned features:", councilDistrictFeatures);
 
-// Get full troy polygon
-
-
-
 /**********************************
  *            EXPORTS             *
  **********************************/
