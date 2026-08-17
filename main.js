@@ -9,6 +9,9 @@
 import { TROY_CENTER, TROY_POLYGON, councilDistrictFeatures } from "./etl.js";
 import districtData from './data/district_info.json' with { type: 'json' };
 
+// Constants
+const NYS_GEOCODING_URL = "https://nysgeohub.ny.gov/arcgis/rest/services/Geocoder/NYS_Geocoder/GeocodeServer";
+const GPS_WKID = 4326;
 /**
  * MAPPING
  */
@@ -106,6 +109,7 @@ function updateMarker(point, flyTo, precision) {
     }
 
     // Draw precision circle
+    // TODO: For some reason the circle looks ever so slightly off to me...
     if (precision) {
         // If the precision was given
         if (precisionCircle) {
@@ -170,6 +174,43 @@ L.geoJSON(councilDistrictFeatures, {
     onEachFeature: districtClickHandler
 }).addTo(map);
 
+// Geocoding
+document.getElementById("search").addEventListener("input", async event => {
+    // Prefer results closer to the center of Troy
+    const location = JSON.stringify({
+        x: TROY_CENTER.geometry.coordinates[0],
+        y: TROY_CENTER.geometry.coordinates[1],
+        spatialReference: {
+            wkid: GPS_WKID
+        }
+    });
+
+    // Only include results inside the reectangle surrounding Troy
+    const troy_bbox = turf.bbox(TROY_POLYGON);
+    const searchExtent = {
+        xmin: troy_bbox[0],
+        ymin: troy_bbox[1],
+        xmax: troy_bbox[2],
+        ymax: troy_bbox[3],
+        spatialReference: {
+            wkid: GPS_WKID 
+        }
+    };
+
+    const params = new URLSearchParams({
+        text: event.target.value,
+        location,
+        searchExtent,
+        f: "json"
+    });
+
+    const response = await fetch(
+        `${NYS_GEOCODING_URL}/suggest?${params}`
+    );
+
+    const data = await response.json();
+    console.log(data);
+});
 
 // Geolocation
 document.getElementById("geolocation").addEventListener("click", event => {
