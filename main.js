@@ -17,6 +17,21 @@ const GPS_WKID = 4326;
  */
 
 // UTILITY FUNCTIONS
+
+function debounce(func, wait) {
+  let timeoutId;
+  
+  return function (...args) {
+    // Clear the previous timer to reset the delay window
+    clearTimeout(timeoutId);
+    
+    // Set a new timer to execute the function after the wait time
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, wait);
+  };
+}
+
 // TODO: Flesh out the types of these a lot more:
 
 /**
@@ -175,7 +190,13 @@ L.geoJSON(councilDistrictFeatures, {
 }).addTo(map);
 
 // Geocoding
-document.getElementById("search").addEventListener("input", async event => {
+// Considering I have not yet been given a rate limit, we can keep this quite small.
+const DEBOUNCE_MS_TIME = 200;
+let getSuggestions = debounce(async event => {
+    const searchTerm = event.target.value;
+    // Sending an empty value to the API would yield an error anyway
+    if (!searchTerm) return;
+
     // Prefer results closer to the center of Troy
     const location = JSON.stringify({
         x: TROY_CENTER.geometry.coordinates[0],
@@ -187,7 +208,7 @@ document.getElementById("search").addEventListener("input", async event => {
 
     // Only include results inside the reectangle surrounding Troy
     const troy_bbox = turf.bbox(TROY_POLYGON);
-    const searchExtent = {
+    const searchExtent = JSON.stringify({
         xmin: troy_bbox[0],
         ymin: troy_bbox[1],
         xmax: troy_bbox[2],
@@ -195,10 +216,10 @@ document.getElementById("search").addEventListener("input", async event => {
         spatialReference: {
             wkid: GPS_WKID 
         }
-    };
+    });
 
     const params = new URLSearchParams({
-        text: event.target.value,
+        text: searchTerm,
         location,
         searchExtent,
         f: "json"
@@ -210,7 +231,8 @@ document.getElementById("search").addEventListener("input", async event => {
 
     const data = await response.json();
     console.log(data);
-});
+}, DEBOUNCE_MS_TIME);
+document.getElementById("search").addEventListener("input", getSuggestions);
 
 // Geolocation
 document.getElementById("geolocation").addEventListener("click", event => {
