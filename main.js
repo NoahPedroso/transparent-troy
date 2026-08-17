@@ -190,6 +190,21 @@ L.geoJSON(councilDistrictFeatures, {
 }).addTo(map);
 
 // Geocoding
+const renderAddresses = (() => {
+    const datalist = document.getElementById("addresses");
+
+    return addresses => {
+        console.log("Rendering addresses:", addresses);
+        datalist.innerHTML = "";
+        addresses.forEach(address => {
+            const addressOption = document.createElement("option");
+            addressOption.value = address.text;
+            addressOption.dataset.magicKey = address.magicKey;
+            datalist.appendChild(addressOption);
+        });
+    }
+})();
+
 // Considering I have not yet been given a rate limit, we can keep this quite small.
 const DEBOUNCE_MS_TIME = 200;
 let getSuggestions = debounce(async event => {
@@ -230,9 +245,14 @@ let getSuggestions = debounce(async event => {
     );
 
     const data = await response.json();
-    console.log(data);
+    renderAddresses(data.suggestions);
+
 }, DEBOUNCE_MS_TIME);
 document.getElementById("search").addEventListener("input", getSuggestions);
+document.getElementById("search").addEventListener("submit", event => {
+    const searchTerm = event.target.value;
+    console.log("searched item")
+});
 
 // Geolocation
 document.getElementById("geolocation").addEventListener("click", event => {
