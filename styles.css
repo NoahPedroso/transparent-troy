@@ -37,6 +37,14 @@ h1,h2,h3,h4,h5,h6 {
 
 a {
     color: var(--troy-yellow);
+
+    /* Hover - TODO: Remove magic numbers */
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.05em;
+    transition: text-underline-offset 0.1s ease-out;
+    &:hover{
+        text-underline-offset: 0.3em;
+    }
 }
 
 nav {
@@ -54,6 +62,7 @@ nav {
 
     /* Aesthetics */
     background-color: inherit;
+    padding: 0.4em 0; /* TODO: Remove this magic number */
     /* Separate nav visually from content */
     border-bottom: 2px solid var(--text); /* TODO: Don't like using "--text for not text */
 }
