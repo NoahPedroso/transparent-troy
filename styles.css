@@ -44,6 +44,11 @@ h1,h2,h3,h4,h5,h6 {
     text-align: center;
 }
 
+p {
+    /* 80 chars is good for readability 
+        https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation#:~:text=Width%20is%20no%20more%20than%2080%20characters%20or%20glyphs%20(40%20if%20CJK). */
+    max-width: 80ch;
+}
 a {
     color: var(--troy-yellow);
 
