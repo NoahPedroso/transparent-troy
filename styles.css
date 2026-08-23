@@ -30,10 +30,14 @@ body {
     grid-template-rows: auto 1fr auto; /* The main content takes up any extra space */
 }
 
+main {
+    padding: 0 1em; /* Don't let content touch the absolute edges of the viewport */
+    margin: 0 auto; /* Inline centering */
+}
+
 main > * {
     /* Spacing */
     margin-bottom: 0.5rem;
-    justify-self: center;
 }
 
 h1 {
@@ -67,7 +71,6 @@ nav, footer {
     gap: 2em;
     /* Need border to stay max width, yet items should still be centered. Centering is hard! */
     justify-content: center;
-    width: 100%;
 
     /* Aesthetics */
     padding: 0.4em 0; /* TODO: Remove this magic number */
