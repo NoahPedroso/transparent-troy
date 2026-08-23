@@ -12,6 +12,26 @@ import districtData from './data/district_info.json' with { type: 'json' };
 // Constants
 const NYS_GEOCODING_URL = "https://nysgeohub.ny.gov/arcgis/rest/services/Geocoder/NYS_Geocoder/GeocodeServer";
 const GPS_WKID = 4326;
+// Used in geocoding to prefer results closer to the center of Troy
+const TROY_CENTER_STRING = JSON.stringify({
+    x: TROY_CENTER.geometry.coordinates[0],
+    y: TROY_CENTER.geometry.coordinates[1],
+    spatialReference: {
+        wkid: GPS_WKID
+    }
+});
+// Used in geocoding to only include results inside the rectangle surrounding Troy
+const troy_bbox = turf.bbox(TROY_POLYGON);
+const SEARCH_EXTENT_STRING = JSON.stringify({
+    xmin: troy_bbox[0],
+    ymin: troy_bbox[1],
+    xmax: troy_bbox[2],
+    ymax: troy_bbox[3],
+    spatialReference: {
+        wkid: GPS_WKID 
+    }
+});
+
 /**
  * MAPPING
  */
@@ -114,6 +134,8 @@ let precisionCircle = null;
  * @param {Number} [precision] The radius (in meters) from the point to draw a confidence circle around
  */
 function updateMarker(point, flyTo, precision) {
+    console.info("Updating marker to point:", point);
+
     // Draw marker
     if (marker) {
         // If the marker already exists on the map, just update the coordiantes.
@@ -190,6 +212,7 @@ L.geoJSON(councilDistrictFeatures, {
 }).addTo(map);
 
 // Geocoding
+// TODO: Use more accessible combobox
 const renderAddresses = (() => {
     const datalist = document.getElementById("addresses");
 
@@ -212,31 +235,11 @@ let getSuggestions = debounce(async event => {
     // Sending an empty value to the API would yield an error anyway
     if (!searchTerm) return;
 
-    // Prefer results closer to the center of Troy
-    const location = JSON.stringify({
-        x: TROY_CENTER.geometry.coordinates[0],
-        y: TROY_CENTER.geometry.coordinates[1],
-        spatialReference: {
-            wkid: GPS_WKID
-        }
-    });
-
-    // Only include results inside the reectangle surrounding Troy
-    const troy_bbox = turf.bbox(TROY_POLYGON);
-    const searchExtent = JSON.stringify({
-        xmin: troy_bbox[0],
-        ymin: troy_bbox[1],
-        xmax: troy_bbox[2],
-        ymax: troy_bbox[3],
-        spatialReference: {
-            wkid: GPS_WKID 
-        }
-    });
-
+    // DOCS: https://developers.arcgis.com/rest/geocode/suggest/
     const params = new URLSearchParams({
         text: searchTerm,
-        location,
-        searchExtent,
+        "location": TROY_CENTER_STRING,
+        "searchExtent": SEARCH_EXTENT_STRING,
         f: "json"
     });
 
@@ -248,10 +251,38 @@ let getSuggestions = debounce(async event => {
     renderAddresses(data.suggestions);
 
 }, DEBOUNCE_MS_TIME);
-document.getElementById("search").addEventListener("input", getSuggestions);
-document.getElementById("search").addEventListener("submit", event => {
-    const searchTerm = event.target.value;
-    console.log("searched item")
+document.getElementById("address-search").addEventListener("input", getSuggestions);
+
+// Get the coordinates of the provided address (geocoding)
+document.getElementById("geocoding").addEventListener("submit", async event => {
+    event.preventDefault();
+    const searchTerm = new FormData(event.currentTarget).get("address-search");
+    console.log("Searched address:", searchTerm);
+
+    // DOCS: https://developers.arcgis.com/rest/geocode/suggest/
+    const params = new URLSearchParams({
+        "singleLine": searchTerm,
+        "city": "Troy", // This seems to be doing nothing to bias Troy results. singleLine seems to win
+        "location": TROY_CENTER_STRING,
+        "searchExtent": SEARCH_EXTENT_STRING,
+        "outSR": GPS_WKID,
+        "maxLocations": 1, // TODO: Maybe can add some more sophisticated parsing instead of just taking the frst option
+        f: "json"
+    });
+
+    const response = await fetch(
+        `${NYS_GEOCODING_URL}/findAddressCandidates?${params}`
+    );
+
+    const data = await response.json();
+    if (data.candidates.length == 0) {
+        alert("Unable to find your location. Please select from the suggested options or click on the map.");
+        return;
+    }
+    const coords = [data.candidates[0].location.x, data.candidates[0].location.y];
+    const districtNumber = getDistrictFromCoords(coords);
+    updateMarker(coords.toReversed(), true);
+    renderDistrictInfo(districtNumber);
 });
 
 // Geolocation
@@ -275,6 +306,7 @@ document.getElementById("return").addEventListener("click", event => {
  */
 function getDistrictFromCoords(coordinates) {
     console.log("Finding the district for:", coordinates);
+
     // TODO: Check if coordinates is a turf.js point or a regular array
     const point = turf.point(coordinates);
     const district = councilDistrictFeatures.features.find(district =>
@@ -293,7 +325,6 @@ function renderDistrictInfo(districtNumber) {
         // if the phone number is empty, return an empty string.
         if (!phoneNumber) return;
 
-        console.log(typeof phoneNumber);
         const onlyDigits = phoneNumber.replace(/[^0-9]/g, "");
         if (onlyDigits.length != 10)
             console.warn(`${onlyDigits} is not 10 digits long! This may cause formatting issues.`);
@@ -342,7 +373,6 @@ function locationSuccess(position) {
     // Determine what district the user is in.
     const districtNumber = getDistrictFromCoords(posArray.toReversed());
     updateMarker(posArray, true, position.coords.accuracy);
-
     renderDistrictInfo(districtNumber);
     // TODO: Consider accuracy radius.
 }

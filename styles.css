@@ -67,6 +67,12 @@ nav {
     border-bottom: 2px solid var(--text); /* TODO: Don't like using "--text for not text */
 }
 
+/* A form that only has a single input (and maybe a submit button)
+    e.g. An "enter your address" text field with a submit button for geocoding */
+.single-input-form {
+    display: inline-block;
+}
+
 /* Holds the map and the result from the location */
 .info-container {
     /* Leaflet uses lots of z-index to manage layers

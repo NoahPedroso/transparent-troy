@@ -27,20 +27,20 @@
 	</nav>
 	<h1>Transparent Troy</h1>
 	<h2>Find your city council member</h2>
-	<!-- TODO: Add geocoding here -->
 	<div>
 		<button id="geolocation" type="button">Use Current Location</button>
 		<span>or</span>
-		<div>
+		<form id="geocoding" class="single-input-form">
 			<input
-				id="search"
+				id="address-search"
+				name="address-search"
 				type="text"
 				list="addresses"
 				autocomplete="street-address"
 				placeholder="Enter your address...">
+			<button type="submit">Find Location</button>
 			<datalist id="addresses"></datalist>
-
-		</div>
+		</form>
 	</div>
 	<div class="info-container">
 		<!-- The Map -->
