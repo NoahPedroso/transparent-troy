@@ -25,53 +25,60 @@
 		<a href="/">Home</a>
 		<a href="/about.html">About</a>
 	</nav>
-	<h1>Transparent Troy</h1>
-	<h2>Find your city council member</h2>
-	<div>
-		<button id="geolocation" type="button">Use Current Location</button>
-		<span>or</span>
-		<form id="geocoding" class="single-input-form">
-			<input
-				id="address-search"
-				name="address-search"
-				type="text"
-				list="addresses"
-				autocomplete="street-address"
-				placeholder="Enter your address...">
-			<button type="submit">Find Location</button>
-			<datalist id="addresses"></datalist>
-		</form>
-	</div>
-	<div class="info-container">
-		<!-- The Map -->
-		<div>
-			<div id="map"></div>
-			<button id="return" type="button">Return to Troy</button>
+	<main>
+		<h1>Transparent Troy</h1>
+		<h2>Find your city council member</h2>
+		<div class="actions">
+			<button id="geolocation" type="button">Use Current Location</button>
+			<span>or</span>
+			<form id="geocoding" class="single-input-form">
+				<input
+					id="address-search"
+					name="address-search"
+					type="text"
+					list="addresses"
+					autocomplete="street-address"
+					placeholder="Enter your address...">
+				<button type="submit">Find Location</button>
+				<datalist id="addresses"></datalist>
+			</form>
 		</div>
-		<div hidden class="district-info">
-			<section>
-				<h3>
-					<span>You are in:</span>
-					<span>District <span class="district-number"></span></span>
-				</h3>
-				<img src="" alt="" class="portrait">
-				<dl>
-					<dt>Councilmember</dt>
-					<dd class="councilmember"></dd>
-					<dt>Phone number</dt>
-					<dd class="phone-number"><a href="tel:"></a></dd>
-					<dt>Email</dt>
-					<dd class="email"><a href="mailto:"></a></dd>
-					<dt>Address</dt>
-					<dd class="address"></dd>
-				</dl>
-			</section>
-			<p hidden>You appear to be outside Troy. Come back soon!</p>
+		<div class="info-container">
+			<!-- The Map -->
+			<div>
+				<div id="map"></div>
+				<button id="return" type="button">Return to Troy</button>
+			</div>
+			<div hidden class="district-info">
+				<section>
+					<h3>
+						<span>You are in:</span>
+						<span>District <span class="district-number"></span></span>
+					</h3>
+					<img src="" alt="" class="portrait">
+					<dl>
+						<dt>Councilmember</dt>
+						<dd class="councilmember"></dd>
+						<dt>Phone number</dt>
+						<dd class="phone-number"><a href="tel:"></a></dd>
+						<dt>Email</dt>
+						<dd class="email"><a href="mailto:"></a></dd>
+						<dt>Address</dt>
+						<dd class="address"></dd>
+					</dl>
+				</section>
+				<p hidden>You appear to be outside Troy. Come back soon!</p>
+			</div>
 		</div>
-	</div>
+	</main>
 
 	<!-- Using type module allows us to use top-level await. Unsure what other reason to use it.
 	 Using defer to allow full page to render. Also need to learn more about that. -->
 	<script type="module" src="main.js" defer></script>
+
+	<footer id="contact">
+        <p>Contact Me</p>
+        <a href="https://www.instagram.com/morelikenoahsarc">Instagram</a>
+    </footer>
 </body>
 </html>

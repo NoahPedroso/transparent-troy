@@ -18,13 +18,22 @@ html {
     /* Site fonts */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 body {
     background-color: var(--main);
     color: var(--text);
 
+    /* Overall page structure: nav, main, footer. May add some left and right columns next to main in the future. */
     display: grid;
-    justify-items: center;
     gap: 0.5em;
+    min-height: 100dvh; /* A tall screen still gets the footer at the bottom of the viewport. */
+    grid-template-rows: auto 1fr auto; /* The main content takes up any extra space */
+}
+
+main > * {
+    /* Spacing */
+    margin-bottom: 0.5rem;
+    justify-self: center;
 }
 
 h1 {
@@ -47,24 +56,37 @@ a {
     }
 }
 
-nav {
-    /* Center nav links */
+nav, footer {
+    /* Centering */
     display: flex;
     gap: 2em;
-    /* Need border to stay max width, yet items should still be centered. */
+    /* Need border to stay max width, yet items should still be centered. Centering is hard! */
     justify-content: center;
     width: 100%;
 
-    /* Positioning - Always on the top of the screen */
-    position: sticky;
-    top: 0;
-    z-index: 1;
-
     /* Aesthetics */
-    background-color: inherit;
     padding: 0.4em 0; /* TODO: Remove this magic number */
-    /* Separate nav visually from content */
-    border-bottom: 2px solid var(--text); /* TODO: Don't like using "--text for not text */
+
+    /* Separate visually from content */
+    --border:  2px solid var(--text); /* TODO: Don't like using "--text for not text */
+
+    &:is(nav) {
+        /* Positioning - Always on the top of the screen */
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: inherit;
+
+        border-bottom: var(--border);
+    }
+    &:is(footer) {
+        border-top: var(--border);
+    }
+}
+
+.actions {
+    /* Everything looks better centered here */
+    text-align: center;
 }
 
 /* A form that only has a single input (and maybe a submit button)
