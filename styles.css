@@ -23,8 +23,13 @@ body {
     background-color: var(--main);
     color: var(--text);
 
-    /* Overall page structure: nav, main, footer. May add some left and right columns next to main in the future. */
+    /* Overall page structure */
     display: grid;
+    grid-template-columns: 1fr minmax(auto, 80ch) 1fr;
+    grid-template-areas:
+        "nav    nav     nav"
+        "left   content right"
+        "footer footer  footer";
     gap: 0.5em;
     min-height: 100dvh; /* A tall screen still gets the footer at the bottom of the viewport. */
     grid-template-rows: auto 1fr auto; /* The main content takes up any extra space */
@@ -46,6 +51,10 @@ h1 {
 h1,h2,h3,h4,h5,h6 {
     color: var(--accent);
     text-align: center;
+}
+
+summary {
+    font-size: x-large;
 }
 
 p {
@@ -87,6 +96,7 @@ nav, footer {
     display: flex;
     gap: 2em;
     /* Need border to stay max width, yet items should still be centered. Centering is hard! */
+    /* Span all grid columns */
     justify-content: center;
 
     /* Aesthetics */
@@ -101,11 +111,13 @@ nav, footer {
         top: 0;
         z-index: 1;
         background-color: inherit;
+        grid-area: nav;
 
         border-bottom: var(--border);
     }
     &:is(footer) {
         border-top: var(--border);
+        grid-area: footer;
     }
 }
 
