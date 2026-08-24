@@ -52,6 +52,23 @@ p {
     /* 80 chars is good for readability 
         https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation#:~:text=Width%20is%20no%20more%20than%2080%20characters%20or%20glyphs%20(40%20if%20CJK). */
     max-width: 80ch;
+    /* Breaks super long words (or urls) even if there is no natural hyphen
+        unlike word-break: break-all, this will prefer to wrap a word to a new line FIRST
+        So my understanding is it only breaks if the line is truly longer than an entire line
+        This can create some weird gaps before the long word, for example:
+        
+        +----------------------------------+
+        | this is some                     |
+        | reallylongworddthatwrappedandlea |
+        | vesthepreviouslinewithareally    |
+        | weird blank space following it   |
+        +----------------------------------+
+
+        Unfortunately, it seems text-wrap: pretty will not solve this for us.
+        
+        Very helpful for narrow screens (mobile)
+    */
+    word-break: break-word;
 }
 a {
     color: var(--troy-yellow);
