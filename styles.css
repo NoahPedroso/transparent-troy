@@ -36,8 +36,8 @@ body {
 }
 
 main {
+    grid-area: content;
     padding: 0 1em; /* Don't let content touch the absolute edges of the viewport */
-    margin: 0 auto; /* Inline centering */
 }
 
 main > * {
