@@ -14,12 +14,27 @@
 	</nav>
     <main>
         <h1>About</h1>
-        <details id="whoami"><summary>Who made this?</summary>
+        <p>This site exists to help citizens of Troy, New York find their city councilmember. I thought the <a href="https://www.troyny.gov/315/City-Council">official site</a> was too hard to use.</p>
+        <p>This is heavily inspired by official sites serving the same purpose for other legislative bodies. Find some below.</p>
+        <ul>
+            <li><a href="https://www.house.gov/representatives/find-your-representative">U.S. House of Representatives</a></li>
+            <li><a href="https://www.nysenate.gov/find-my-senator">NYS Senate</a></li>
+            <li><a href="https://www.nysenate.gov/find-my-senator">NYS Assembly</a></li>
+        </ul>
+        <h2>FAQ</h2>
+        <details id="whoami"><summary></summary>
             This site was made entirely by <a href="#contact">Noah Pedroso</a>, a resident of Troy.
         </details>
-        <p>About: This is a quick tool meant to help citizens of Troy, NY find the person who represents them in their city council. I'm making this because I thought the tools already available online were not up-to-par with what many people come to expect their digital experience to be like. It is modeled after the "find my congressperson" and "find my assemblymember" sites provided by the US congress and the New York State Assembly. </p>
-        <p>Sources: My data comes from the rensselaer county website's public shape files: https://www.rensco.com/589/District-Maps <a href="https://www.rensco.com/DocumentCenter/View/4029/052024_Rensco_ElectionDistricts-ZIP">(actual download)</a>. It has information for every election district in rensselaer county, which of course includes Troy. This project basically just takes that data and adds an interactive wrapper around it, some information, and makes it troy focused. Troy election districts static map: https://troyny.gov/DocumentCenter/View/1731/Election-District-Map-2023-PDF and https://troyny.gov/315/City-Council </p>
-        <p> NOTES: I could not find the city council district shapefiles themselves, so I am just relying on the eleciton distrit data and static maps of the city council districts, as the election districts seem to be fully contained within city council districts. I hope to find a source telling me that will always be the case. See the SOURCE section to see the static maps. </p> 
+        <!-- <details><summary>Does my address stay private?</summary>
+            Your address and any info you type in the address box is sent to NYS's geocoding service. I have no insight into what they do with it there, but it is sent only as text, but could possibly be linked to your IP.
+            Most services that show you your location on a map send that info through Google. This site does not do that.
+        </details> -->
+        <!-- <details id="tech"><summary>Technical Stuff</summary>
+            This heavily relies on New York State's free geocoding service and
+        </details> -->
+        <details><summary>Sources</summary>
+            <p>This data comes from <a href="https://www.rensco.com/589/District-Maps">Rensselaer County's website</a>. This link will download the <a href="https://www.rensco.com/DocumentCenter/View/4029/052024_Rensco_ElectionDistricts-ZIP">shapefiles for all of Rensselaer County</a>, after which I manually extracted only the ones related to Troy.</p>
+        </details>
     </main>
     <footer id="contact">
         <p>Contact Me</p>
