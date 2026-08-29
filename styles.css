@@ -86,7 +86,8 @@ a {
     text-decoration-thickness: 0.1em;
     text-underline-offset: 0.05em;
     transition: text-underline-offset 0.1s ease-out;
-    &:hover{
+    &:hover,
+    &:focus{
         text-underline-offset: 0.3em;
     }
 }
