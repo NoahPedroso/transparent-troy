@@ -3,6 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+	<meta
+		property="og:description"
+		content="Find your city councl member" />
+	<meta property="og:title" content="Transparent Troy" />
 	<title>Transparent Troy</title>
 
 	<link rel="stylesheet" href="reset.css">
@@ -44,11 +50,6 @@
 			</form>
 		</div>
 		<div class="info-container">
-			<!-- The Map -->
-			<div>
-				<div id="map"></div>
-				<button id="return" type="button">Return to Troy</button>
-			</div>
 			<div hidden class="district-info">
 				<section>
 					<h3>
@@ -68,6 +69,11 @@
 					</dl>
 				</section>
 				<p hidden>You appear to be outside Troy. Come back soon!</p>
+			</div>
+			<!-- The Map -->
+			<div>
+				<div id="map"></div>
+				<button id="return" type="button">Return to Troy</button>
 			</div>
 		</div>
 	</main>
