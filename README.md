@@ -1,5 +1,5 @@
 # Transparent Troy
-## A website to bolster civic enagement in Troy.
+## A website to bolster civic engagement in Troy.
 
 ### Uses
 This currently only has one use: Find your city council member and info. Basically a prettier, more user friendly version of [the official city council page](https://www.troyny.gov/315/City-Council).
