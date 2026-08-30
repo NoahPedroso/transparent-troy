@@ -257,6 +257,11 @@ document.getElementById("address-search").addEventListener("input", getSuggestio
 document.getElementById("geocoding").addEventListener("submit", async event => {
     event.preventDefault();
     const searchTerm = new FormData(event.currentTarget).get("address-search");
+    if (!searchTerm) {
+        // TODO: DISABLE BUTTON WHEN EMPTY INPUT
+        console.warn("Not searching for any address, none provided");
+        return;
+    }
     console.log("Searched address:", searchTerm);
 
     // DOCS: https://developers.arcgis.com/rest/geocode/suggest/
@@ -362,6 +367,8 @@ function renderDistrictInfo(districtNumber) {
         // TODO: These images load the first time the district is selected. Some preloading may help.
         $(".portrait").src = member.image;
         $(".portrait").alt = `Councilmember ${member.firstName} ${member.lastName}`;
+
+        document.querySelector(".district-info").scrollIntoView({behavior: "smooth"});
     }
 }
 
@@ -383,14 +390,18 @@ function locationError(posError) {
     // TODO: Use a <geolocation> HTML element when widely supported. https://caniuse.com/wf-geolocation-element
 
     switch(posError.code) {
+        //TODO: Display these error messages without an alert();
         // https://w3c.github.io/geolocation/#constants
         case 1: // PERMISSION_DENIED
+            alert("You denied geolocation. Please enter your address, select on the map, or change your permissions.");
             console.warn("The user did not want to share");
             break;
         case 2: // POSITION_UNAVAILABLE
+            alert("We could not locate you. Please enter your address or select on the map.");
             console.error("Something went wrong");
             break;
         case 3: // TIMEOUT
+            alert("We could not locate you in time. Please enter your address or select on the map.");
             console.error("Took too long");
             break;
         default:
