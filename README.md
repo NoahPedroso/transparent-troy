@@ -1,4 +1,4 @@
-#Transparent Troy
+# Transparent Troy
 ## A website to bolster civic engaement in Troy.
 
 ### Uses
