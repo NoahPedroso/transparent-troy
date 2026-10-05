@@ -18,6 +18,9 @@ html {
     /* Site fonts */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
+
+    /* Min viewport width this site works on */
+    --min-viewport-width: 320px;
 }
 
 body {
@@ -27,18 +30,32 @@ body {
     /* Overall page structure */
     display: grid;
     grid-template-columns: 1fr minmax(auto, 80ch) 1fr;
-    grid-template-areas:
-        "nav    nav     nav"
-        "left   content right"
-        "footer footer  footer";
     gap: 0.5em;
     min-height: 100dvh; /* A tall screen still gets the footer at the bottom of the viewport. */
     grid-template-rows: auto 1fr auto; /* The main content takes up any extra space */
+
+    /* A more interactive page doesn't really need sidebars. */
+    &.app {
+        grid-template-areas:
+        "nav     nav     nav"
+        "content content content"
+        "footer  footer  footer";
+    }
+    /* A more informational page should have sidebars */
+    &.info {
+        grid-template-areas:
+        "nav     nav     nav"
+        "left    content right"
+        "footer  footer  footer";
+    }
 }
 
 main {
     grid-area: content;
-    padding: 0 1em; /* Don't let content touch the absolute edges of the viewport */
+
+    /* Don't let content touch the absolute edges of the viewport */
+    --main-padding: 1em;
+    padding: 0 var(--main-padding);
 }
 
 main > * {
@@ -80,6 +97,28 @@ p {
     */
     word-break: break-word;
 }
+
+/* Any element that wants to look like it was plopped right on top of a <hr> 
+    e.g. ---- el ---- */
+.horizontal-rule-el {
+    font-style: italic;
+    color: var(--primary);
+    
+    /* because this relies on flexbox, this may work best on a wrapper element
+        as to not disturb the display property of the wrapped element */
+    display: flex;
+    gap: 1em; /* This gap also helps hide weird alignment issues due to font */
+    align-items: center;
+    text-align: center;
+
+    &::before,
+    &::after {
+        content: "";
+        flex-grow: 1;
+        border-bottom: solid var(--primary) 1px;
+    }
+}
+
 a {
     color: var(--troy-yellow);
 
@@ -126,16 +165,21 @@ nav, footer {
 .actions {
     /* Everything looks better centered here */
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 /* A form that only has a single input (and maybe a submit button)
     e.g. An "enter your address" text field with a submit button for geocoding */
 .single-input-form {
-    display: inline-block;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
 }
 
-/* Holds the map and the result from the location */
-.info-container {
+/* Location input, map, and resulting info */
+.layout-wrapper {
     /* Leaflet uses lots of z-index to manage layers
     This just bundles all of that up at one new stacking context,
     and deliberately places it under the nav's z-index */
@@ -144,9 +188,30 @@ nav, footer {
 
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 1em;
+    gap: 2em;
 
+    & > * {
+        /* 
+            Each of the 3 items has the same starting width.
+            They cannot shrink past that width.
+            They each grow together at the same rate.
+            This ensures all columns are the same width for each line
+                (an item on a new line is not the same width as the items on other lines.
+                They will always take up as much space as possible)
+            Columns of the same width keeps wrapping predictable:
+                - The last item wraps first
+                - Earlier rows always have more items than later rows
+            
+            The only way an item can become wider than another is if it is clamped to its min width.
+            I could set min-width: 0 (or the val contained in the basis here) on all of these
+            but I would like things to stay wide rather than break and overflow.
+            Testing reveals no items that cannot shrink to this basis width, so it is not an issue.
+            */
+        flex: 1 0 calc(var(--min-viewport-width) - var(--main-padding));
+    }
+}
+
+.district-info {
     .portrait {
         width: 10em;
         border: solid var(--troy-yellow) 2px;
@@ -190,8 +255,6 @@ nav, footer {
 #map {
     min-height: 450px;
     height: 60vh;
-    min-width: 320px;
-
     /* Aesthetics */
     border: solid var(--troy-yellow) 2px;
 }

@@ -370,6 +370,10 @@ function renderDistrictInfo(districtNumber) {
 
         document.querySelector(".district-info").scrollIntoView({behavior: "smooth"});
     }
+
+    // Keep the map centered when the container resizes
+    map.invalidateSize(); 
+
 }
 
 function locationSuccess(position) {

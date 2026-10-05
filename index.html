@@ -29,30 +29,41 @@
 	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
 
 </head>
-<body>
+<body class="app">
 	<nav>
 		<a href="./">Home</a>
 		<a href="about.html">About</a>
 	</nav>
 	<main>
-		<h1>Transparent Troy</h1>
-		<h2>Find your city council member</h2>
-		<div class="actions">
-			<button id="geolocation" type="button">Use Current Location</button>
-			<span>or</span>
-			<form id="geocoding" class="single-input-form">
-				<input
-					id="address-search"
-					name="address-search"
-					type="text"
-					list="addresses"
-					autocomplete="street-address"
-					placeholder="Enter your address...">
-				<button type="submit">Find Location</button>
-				<datalist id="addresses"></datalist>
-			</form>
-		</div>
-		<div class="info-container">
+		<header>
+			<h1>Transparent Troy</h1>
+			<h2>Find your city council member</h2>
+		</header>
+		<div class="layout-wrapper">
+			<!-- The Input -->
+			<div class="actions">
+				<button class="primary" id="geolocation" type="button">Use Current Location</button>
+				<p class="horizontal-rule-el italic">or</p>
+				<form id="geocoding" class="single-input-form">
+					<input
+						id="address-search"
+						name="address-search"
+						type="text"
+						list="addresses"
+						autocomplete="street-address"
+						placeholder="Enter your address...">
+					<button type="submit">Find Location</button>
+					<datalist id="addresses"></datalist>
+				</form>
+			</div>
+
+			<!-- The Map -->
+			<div>
+				<div id="map" class="map"></div>
+				<button id="return" type="button">Return to Troy</button>
+			</div>
+
+			<!-- The Result -->
 			<div hidden class="district-info">
 				<section>
 					<h3>
@@ -72,11 +83,6 @@
 					</dl>
 				</section>
 				<p hidden>You appear to be outside Troy. Come back soon!</p>
-			</div>
-			<!-- The Map -->
-			<div>
-				<div id="map"></div>
-				<button id="return" type="button">Return to Troy</button>
 			</div>
 		</div>
 	</main>
