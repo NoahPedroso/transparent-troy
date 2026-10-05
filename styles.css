@@ -11,9 +11,11 @@ html {
     --troy-blue: #104686;
     --troy-red: #ad141e;
 
-    --main: hsl(from var(--troy-blue) h s 5);
-    --text: hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50)); /* contrast-color(var(--main)); */
-    --accent: hsl(from var(--troy-yellow) h s l);
+    --background: hsl(from var(--troy-blue) h s 5);
+    --text:       hsl(from var(--troy-yellow) h s l); /* contrast-color(var(--background)); */
+    --primary:    hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50));
+    --secondary:  hsl(from var(--primary) h calc(s * 0.8) calc(l * 0.4));
+    --accent:     var(--troy-red);
 
     /* Site fonts */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -24,12 +26,16 @@ html {
 }
 
 body {
-    background-color: var(--main);
+    background-color: var(--background);
     color: var(--text);
 
     /* Overall page structure */
     display: grid;
     grid-template-columns: 1fr minmax(auto, 80ch) 1fr;
+    grid-template-areas:
+        "nav    nav     nav"
+        "content content content"
+        "footer footer  footer";
     gap: 0.5em;
     min-height: 100dvh; /* A tall screen still gets the footer at the bottom of the viewport. */
     grid-template-rows: auto 1fr auto; /* The main content takes up any extra space */
@@ -47,6 +53,9 @@ body {
         "nav     nav     nav"
         "left    content right"
         "footer  footer  footer";
+
+        /* TODO: This is jank. I really need to think about colors and text */
+        color: var(--primary)
     }
 }
 
@@ -67,7 +76,7 @@ h1 {
     font-size: xxx-large;
 }
 h1,h2,h3,h4,h5,h6 {
-    color: var(--accent);
+    color: var(--text);
     text-align: center;
 }
 
@@ -162,6 +171,36 @@ nav, footer {
     }
 }
 
+button {
+    cursor: pointer;
+
+    width: 100%;
+    min-height: 3em;
+    background-color: var(--background);
+    color: var(--text);
+
+    border-style: none;
+    outline: 1px solid currentColor;
+
+    &.primary {
+        background-color: var(--text);
+        color: var(--background);
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
+input {
+    background-color: var(--background);
+    color: var(--text);
+    border-style: solid;
+    border: solid var(--text) 1px;
+    &::placeholder {
+        color: var(--text);
+    }
+    min-width: 0;
+}
+
 .actions {
     /* Everything looks better centered here */
     text-align: center;
@@ -235,7 +274,7 @@ nav, footer {
     dd {
         font-size: large;
         font-weight: bold;
-        color: var(--troy-yellow);
+        color: var(--primary);
         padding-bottom: 0.5em;
         
         /* if the description is empty OR
