@@ -179,7 +179,14 @@ function updateMarker(point, flyTo, precision) {
 
 // Display map
 const zoomLevel = 12
-var map = L.map('map').setView(TROY_CENTER.geometry.coordinates.toReversed(), zoomLevel);
+let mapBounds = L.latLngBounds(
+    [troy_bbox[3], troy_bbox[2]], // North East
+    [troy_bbox[1], troy_bbox[0]]  // South West
+);
+let map = L.map('map', {
+    maxBounds: mapBounds,
+    minZoom: zoomLevel
+}).setView(TROY_CENTER.geometry.coordinates.toReversed(), zoomLevel);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
