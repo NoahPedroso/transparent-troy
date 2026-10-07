@@ -284,6 +284,14 @@ input {
             padding-bottom: 0;
         }
     }
+
+    /* 
+        Putting this here instead of string concat to keep empty values from displaying.
+        Maybe not the best strategy
+    */
+    .instagram a:not(:empty)::before {
+        content: '@';
+    }
 }
 
 /* Leaflet requires an id on the map element:

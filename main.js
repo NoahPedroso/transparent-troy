@@ -360,6 +360,7 @@ function renderDistrictInfo(districtNumber) {
         emptyMessage.hidden = true;
         infoSection.hidden = false;
 
+        // TODO: We simply overwrite the existing divs, so appending content is not viable otherwise it will remember what you previously clicked on. However that means that for social links, we need to keep the prefix HERE, not in the html. I wonder if that is desireable.
         const member = districtObj.member;
         $(".district-number").textContent = districtNumber;
         // TODO: troyny.gov has email and phone icons. I should probably do that...
@@ -368,6 +369,11 @@ function renderDistrictInfo(districtNumber) {
         $(".phone-number>a").href = `tel:${member.phone}`;
         $(".email>a").textContent = `${member.email}`;
         $(".email>a").href = `mailto:${member.email}`;
+        $(".instagram>a").textContent = `${member.instagram || ''}`;
+        $(".instagram>a").href = `https://www.instagram.com/${member.instagram}`;
+        // TODO: maybe scrape the facebook name? Or not, only 6 people. I just sourced it manually.
+        $(".facebook>a").textContent = `${member.facebook_name || ''}`;
+        $(".facebook>a").href += `https://www.facebook.com/profile.php?id=${member.facebook}`;
         // TODO: Show address on map
         // If the address is in Troy, omit that info.
         $(".address").textContent = member.address.split(/\s+Troy,/)[0];

@@ -42,4 +42,5 @@ Does it automatically update? Do you need to check to see if data changed period
         - [Potrait Image](https://www.gregfortroy.com/)
 - Description
 - Shape
+    - facebook_name: Manually sourced by following the link to the facebook profile and copying the text that appears to be the name of the profile.
 - Update Frequency
