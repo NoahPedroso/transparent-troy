@@ -373,7 +373,7 @@ function renderDistrictInfo(districtNumber) {
         $(".instagram>a").href = `https://www.instagram.com/${member.instagram}`;
         // TODO: maybe scrape the facebook name? Or not, only 6 people. I just sourced it manually.
         $(".facebook>a").textContent = `${member.facebook_name || ''}`;
-        $(".facebook>a").href += `https://www.facebook.com/profile.php?id=${member.facebook}`;
+        $(".facebook>a").href = `https://www.facebook.com/profile.php?id=${member.facebook}`;
         // TODO: Show address on map
         // If the address is in Troy, omit that info.
         $(".address").textContent = member.address.split(/\s+Troy,/)[0];
