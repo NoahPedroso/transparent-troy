@@ -56,6 +56,47 @@ function transformFeatures(rawData) {
 }
 
 /**
+ * Any manual corrections to the data are done here.
+ * These are NOT derivations or filtering. This is changing the ACTUAL data.
+ * A reason must be provided for anything in this function. It should ideally remain VERY small.
+ * Perhaps in the future, if there are glaring issues, the issues here could be reported up to the source.
+ * 
+ * For now I only need to edit the data that I actually use, 
+ * but perhaps in the future for some reason I may need to switch this to accept rawData before any processing.
+ * 
+ * @param {ElectionDistrict[]} electionDistricts
+ * @returns {ElectionDistrict[]}
+ */
+function correctData(electionDistricts) {
+    /** CORRECTION 1: Election districts are not perfectly contiguous
+     * 
+     *  EXPLANATION: The points on the election district polygons are not always shared on boundaries where two disticts meet. For example,
+     *      Example:
+     *      *-*-*
+     *      |1|2|
+     *      *-*-* 
+     *      Here, districts 1 and 2 both share a point on their borders: (1,1). This makes it clear they can merge (`turf.union()`).
+     *      The error we are correcting here occurs when district one's point is something like (0.99, 0.99) and district 2's is like (1.01, 1.01).
+     *      The points are so close to each other so it is clear that the two points are close enough that they should be the same, but for some reason the data has them slightly off.
+     *  
+     *  DISCOVERY METHOD: Observed stray border lines in the middle of city council districts created by merging city council districts.
+     * 
+     *  FIX: Overwrite one of the bad coordinates to the other district's value.
+     *  WHY THIS IS ACCEPTABLE: The distance between the original coordinate and the coordinate I am overwriting it with is small (< 1ft).
+     *      Checked manually as there were only 2 instances and the data does not change often.
+     */
+    // SIDE EFFECT: sorting input. ok for now, but good to remember.
+    // Convert to num because localeCompare orders 1,10,11,...,2,20...
+    // .find() is O(N), sort then index is O(NlogN). May be worth timing though, as these are smallish arrays and there may be hidden constants
+    const ed11 = electionDistricts.find(ed => ed.edId === "TY_11");
+    const ed12 = electionDistricts.find(ed => ed.edId === "TY_12");
+    ed12.coordinates[0][47] = ed11.coordinates[0][29];
+    ed12.coordinates[0][40] = ed11.coordinates[0][36];
+
+    return electionDistricts;
+}
+
+/**
  * DATA MANIPULATION
  */
 
@@ -64,7 +105,7 @@ const rawData = await fetch(DATA_FILENAME).then(res=>res.json());
 console.log("Raw imported data:", rawData);
 
 // Grab only the features, and relevant data
-const electionDistricts = transformFeatures(rawData);
+const electionDistricts = correctData(transformFeatures(rawData));
 console.log("Election Districts:", electionDistricts);
 
 // Create groups of EDs by CD
