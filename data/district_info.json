@@ -3,7 +3,7 @@
         "member": {
             "firstName": "Phil",
             "lastName": "DiLorenzo",
-            "image": "https://i0.wp.com/philfortroy.com/wp-content/uploads/2025/09/Headshot.png?w=3840&ssl=1",
+            "image": "../images/dilorenzo/website_headshot.png",
             "address": "459 9th Avenue Troy, NY 12182",
             "committees": [
                 "General Services Committee",
@@ -23,7 +23,7 @@
         "member": {
             "firstName": "Shikole",
             "lastName": "Struber",
-            "image": "https://shikolefortroy.com/wp-content/uploads/2025/03/20250301_SHIKOLE-FOR-TROY_IMG_9522-scaled.jpg",
+            "image": "../images/struber/website_background.png",
             "address": "242 2nd Avenue, 2F Troy, NY 12180",
             "committees": [
                 "Planning Committee",
@@ -63,7 +63,7 @@
         "member": {
             "firstName": "Noreen",
             "lastName": "McKee",
-            "image": "https://images.squarespace-cdn.com/content/v1/67c4d9814e11561f2c1731e3/33fa625f-eaa3-4294-b2b3-30a03c729b20/NoreenMcKee-D4.jpg?format=2500w",
+            "image": "../images/mckee/website_background.png",
             "address": "129 2nd Street Troy, NY 12180",
             "committees": [
                 "Law Committee",
@@ -107,7 +107,7 @@
         "member": {
             "firstName": "Greg",
             "lastName": "Campbell-Cohen",
-            "image": "https://images.squarespace-cdn.com/content/v1/67f2ce8a7a202e0a9d8877b4/10e5fde3-b884-41fb-9d03-3050b8828c90/March+Headshot.png",
+            "image": "../images/campbell-cohen/website_headshot.png",
             "address": "30 Lincoln Avenue, Apt.1 Troy, NY 12180",
             "committees": [
                 "General Services Committee",
