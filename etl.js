@@ -37,8 +37,13 @@ function transformFeatures(rawData) {
     const fullFeatures = rawData.features.filter(potentialFeature => potentialFeature.type == "Feature");
     console.log("FEATURE TRANSFORMATION STEP 1: Only Verified Features", fullFeatures);
 
+    // TODO: TBH I think this step may be unnecessary. I need almost all the data, and I end up having to just reconvert into features later.
     const transformedFeatures = fullFeatures.map(feature => ({
         edId: feature.properties.ED,
+        pollingPlace: feature.properties.POLLING_PL,
+        address: feature.properties.ADDRESS,
+        city: feature.properties.CITY,
+        zip: feature.properties.ZIP,
         councilDistrict: feature.properties.CNCLDIST,
         coordinates: feature.geometry.coordinates,
     }));
@@ -135,7 +140,16 @@ console.log("Unioned features:", councilDistrictFeatures);
 
 /* Use turf.js to create geoJSON Features of the election districts */
 // slice after 3 to get number
-let electionDistrictFeatures = electionDistricts.map(ed => turf.polygon(ed.coordinates, {"id": Number(ed.edId.slice(3))}));
+let electionDistrictFeatures = electionDistricts.map(ed => turf.polygon(ed.coordinates,{
+    "electionDistrict": {
+        "ed": Number(ed.edId.slice(3)),
+        "pollingPlace": ed.pollingPlace,
+        "address": ed.address,
+        "city": ed.city,
+        "zip": ed.zip,
+    },
+    "district": Number(ed.councilDistrict[0]),
+}));
 /**********************************
  *            EXPORTS             *
  **********************************/

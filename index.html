@@ -76,7 +76,7 @@
 						<span>District <span class="district-number"></span></span>
 					</h3>
 					<img src="" alt="" class="portrait">
-					<dl>
+					<dl class="member">
 						<dt>Councilmember</dt>
 						<dd class="councilmember"></dd>
 						<dt>Phone number</dt>
@@ -90,6 +90,20 @@
 						<dt>Address</dt>
 						<dd class="address"></dd>
 					</dl>
+					<section id="polling-place-section" hidden>
+						<h4>Election District <span class="election-district-number"></span></h4>
+						<!-- TODO: Register this with maps apps so users can click for GPS -->
+						<dl>
+							<dt>Polling Place</dt>
+							<dd class="polling-place"></dd>
+							<dt>Address</dt>
+							<dd class="pp-address"></dd>
+							<dt>City</dt>
+							<dd class="pp-city"></dd>
+							<dt>ZIP</dt>
+							<dd class="pp-zip"></dd>
+						</dl>
+					</section>
 				</section>
 				<p hidden>You appear to be outside Troy. Come back soon!</p>
 			</div>

@@ -197,7 +197,8 @@ function districtClickHandler(feature, layer) {
     // Bind the click event to each individual feature layer
     layer.on('click', function (e) {
         updateMarker(e.latlng);
-        renderDistrictInfo(feature.properties.district);
+        console.log(feature.properties);
+        renderDistrictInfo(feature.properties.district, feature.properties.electionDistrict);
     });
 }
 
@@ -213,7 +214,7 @@ const addBordersToMap = (function () {
             weight: 1,
             fillOpacity: 0.4
         },
-    });
+    }).addTo(map);
 
     const councilBorders = L.geoJSON(councilDistrictFeatures, {
         style: {
@@ -222,16 +223,17 @@ const addBordersToMap = (function () {
             fillOpacity: 0.4
         },
         onEachFeature: districtClickHandler
-    });
+    }).addTo(map);
 
     const electionDistrictBorders = L.geoJSON(electionDistrictFeatures, {
         style: {
             color: '#d10e0e54',
             weight: 3,
+            opacity: 0,
             fillOpacity: 0
         },
-        // onEachFeature: districtClickHandler
-    });
+        onEachFeature: districtClickHandler
+    }).addTo(map);
     const pollingPlaceCheckbox = document.getElementById("show-polling-place");
 
     /**
@@ -249,21 +251,27 @@ const addBordersToMap = (function () {
     return function (borderType) {
         switch(borderType) {
             case "CITY":
-                cityBorders.addTo(map);
+                // cityBorders.addTo(map);
                 break;
             
             case "COUNCIL":
-                councilBorders.addTo(map);
+                // councilBorders.addTo(map);
                 break;
 
             case "ED":
                 if (pollingPlaceCheckbox.checked) {
                     console.log("Showing election district boundaries");
-                    electionDistrictBorders.addTo(map);
+                    electionDistrictBorders.setStyle({
+                        opacity: 1,
+                        fillOpacity: 0
+                    });
                 } else {
                     // REFACTOR OPPORTUNITY: Does it make sense to hide the boundaries in a function called "add..."?
-                    console.log("TODO: Hiding election district boundaries");
-                    map.removeLayer(electionDistrictBorders);
+                    console.log("Hiding election district boundaries");
+                    electionDistrictBorders.setStyle({
+                        opacity: 0,
+                        fillOpacity: 0
+                    });
                 }
                 break;
 
@@ -277,7 +285,10 @@ addBordersToMap("CITY");
 addBordersToMap("COUNCIL");
 const pollingPlaceCheckbox = document.getElementById("show-polling-place");
 console.log(pollingPlaceCheckbox);
-pollingPlaceCheckbox.addEventListener("change", () => addBordersToMap("ED"));
+pollingPlaceCheckbox.addEventListener("change", e => {
+    addBordersToMap("ED");
+    document.getElementById("polling-place-section").hidden = !e.target.checked; 
+});
 
 // Geocoding
 // TODO: Use more accessible combobox
@@ -353,9 +364,9 @@ document.getElementById("geocoding").addEventListener("submit", async event => {
         return;
     }
     const coords = [data.candidates[0].location.x, data.candidates[0].location.y];
-    const districtNumber = getDistrictFromCoords(coords);
+    const [districtNumber, electionDistrict] = getDistrictFromCoords(coords);
     updateMarker(coords.toReversed(), true);
-    renderDistrictInfo(districtNumber);
+    renderDistrictInfo(districtNumber, electionDistrict);
 });
 
 // Geolocation
@@ -386,12 +397,16 @@ function getDistrictFromCoords(coordinates) {
         turf.booleanPointInPolygon(point, district)
     )?.properties.district;
 
-    if (!district) return -1;
+    if (!district) return [-1, -1];
 
-    return district;
+    const electionDistrict = electionDistrictFeatures.find(ed =>
+        turf.booleanPointInPolygon(point, ed)
+    )?.properties.electionDistrict;
+
+    return [district, electionDistrict];
 }
 
-function renderDistrictInfo(districtNumber) {
+function renderDistrictInfo(districtNumber, electionDistrict) {
 
     // Helper function
     let formatPhoneNumber = phoneNumber => {
@@ -442,6 +457,13 @@ function renderDistrictInfo(districtNumber) {
         $(".portrait").src = member.image;
         $(".portrait").alt = `Councilmember ${member.firstName} ${member.lastName}`;
 
+
+        $(".election-district-number").textContent = electionDistrict.ed;
+        $(".polling-place").textContent = electionDistrict.pollingPlace;
+        $(".pp-address").textContent = electionDistrict.address;
+        $(".pp-city").textContent = electionDistrict.city;
+        $(".pp-zip").textContent = electionDistrict.zip;
+        
         document.querySelector(".district-info").scrollIntoView({behavior: "smooth"});
     }
 
@@ -456,9 +478,9 @@ function locationSuccess(position) {
     // Add center to map for TESTING
     const testPosArray = TROY_CENTER.geometry.coordinates.toReversed();
     // Determine what district the user is in.
-    const districtNumber = getDistrictFromCoords(posArray.toReversed());
+    const [districtNumber, electionDistrict] = getDistrictFromCoords(posArray.toReversed());
     updateMarker(posArray, true, position.coords.accuracy);
-    renderDistrictInfo(districtNumber);
+    renderDistrictInfo(districtNumber, electionDistrict);
     // TODO: Consider accuracy radius.
 }
 
