@@ -132,11 +132,16 @@ Object.entries(groupedDistricts).forEach(([key, val]) => {
 });
 console.log("Unioned features:", councilDistrictFeatures);
 
+
+/* Use turf.js to create geoJSON Features of the election districts */
+// slice after 3 to get number
+let electionDistrictFeatures = electionDistricts.map(ed => turf.polygon(ed.coordinates, {"id": Number(ed.edId.slice(3))}));
 /**********************************
  *            EXPORTS             *
  **********************************/
 // Polygon Features
 export {councilDistrictFeatures};
+export {electionDistrictFeatures};
 export const TROY_POLYGON = turf.union(councilDistrictFeatures);
 // Point Features
 export const TROY_CENTER = turf.center(TROY_POLYGON); 

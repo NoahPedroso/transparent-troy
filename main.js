@@ -6,7 +6,7 @@
  */
 
 // Imports
-import { TROY_CENTER, TROY_POLYGON, councilDistrictFeatures } from "./etl.js";
+import { TROY_CENTER, TROY_POLYGON, councilDistrictFeatures, electionDistrictFeatures } from "./etl.js";
 import districtData from './data/district_info.json' with { type: 'json' };
 
 // Constants
@@ -201,22 +201,83 @@ function districtClickHandler(feature, layer) {
     });
 }
 
-L.geoJSON(TROY_POLYGON, {
-    style: {
-        color: '#3e916e',
-        weight: 1,
-        fillOpacity: 0.4
-    },
-}).addTo(map);
+/**
+ * 
+ * @param {String} borderType CITY | COUNCIL | ED
+ */
+const addBordersToMap = (function () {
+    // "Static" layers initialized once.
+    const cityBorders = L.geoJSON(TROY_POLYGON, {
+        style: {
+            color: '#3e916e',
+            weight: 1,
+            fillOpacity: 0.4
+        },
+    });
 
-L.geoJSON(councilDistrictFeatures, {
-    style: {
-        color: '#d10e0e',
-        weight: 5,
-        fillOpacity: 0.4
-    },
-    onEachFeature: districtClickHandler
-}).addTo(map);
+    const councilBorders = L.geoJSON(councilDistrictFeatures, {
+        style: {
+            color: '#d10e0e',
+            weight: 5,
+            fillOpacity: 0.4
+        },
+        onEachFeature: districtClickHandler
+    });
+
+    const electionDistrictBorders = L.geoJSON(electionDistrictFeatures, {
+        style: {
+            color: '#d10e0e54',
+            weight: 3,
+            fillOpacity: 0
+        },
+        // onEachFeature: districtClickHandler
+    });
+    const pollingPlaceCheckbox = document.getElementById("show-polling-place");
+
+    /**
+     * I decided to keep this as a function with a switch so that
+     * it can be called at any time without duplicate borders/work,
+     * not just at document load.
+     * This is helpful to keep all the border functionality co-located,
+     * even though the election districts won't be loaded at the same time.
+     * addBordersToMap("CITY") & addBordersToMap("COUNCIL") should probably always be called back to back.
+     * Perhaps this can be extended with a second param, `hide`,
+     * so I could turn off borders easily for some reason.
+     * 
+     * The borderType should def be an enum or type or something in TS
+     */
+    return function (borderType) {
+        switch(borderType) {
+            case "CITY":
+                cityBorders.addTo(map);
+                break;
+            
+            case "COUNCIL":
+                councilBorders.addTo(map);
+                break;
+
+            case "ED":
+                if (pollingPlaceCheckbox.checked) {
+                    console.log("Showing election district boundaries");
+                    electionDistrictBorders.addTo(map);
+                } else {
+                    // REFACTOR OPPORTUNITY: Does it make sense to hide the boundaries in a function called "add..."?
+                    console.log("TODO: Hiding election district boundaries");
+                    map.removeLayer(electionDistrictBorders);
+                }
+                break;
+
+            default:
+                console.error(`Unknown border type ${borderType}`);
+        }
+    }
+})();
+
+addBordersToMap("CITY");
+addBordersToMap("COUNCIL");
+const pollingPlaceCheckbox = document.getElementById("show-polling-place");
+console.log(pollingPlaceCheckbox);
+pollingPlaceCheckbox.addEventListener("change", () => addBordersToMap("ED"));
 
 // Geocoding
 // TODO: Use more accessible combobox
