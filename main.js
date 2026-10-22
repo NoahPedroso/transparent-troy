@@ -259,20 +259,20 @@ const addBordersToMap = (function () {
                 break;
 
             case "ED":
-                if (pollingPlaceCheckbox.checked) {
+                // if (pollingPlaceCheckbox.checked) {
                     console.log("Showing election district boundaries");
                     electionDistrictBorders.setStyle({
                         opacity: 1,
                         fillOpacity: 0
                     });
-                } else {
-                    // REFACTOR OPPORTUNITY: Does it make sense to hide the boundaries in a function called "add..."?
-                    console.log("Hiding election district boundaries");
-                    electionDistrictBorders.setStyle({
-                        opacity: 0,
-                        fillOpacity: 0
-                    });
-                }
+                // } else {
+                //     // REFACTOR OPPORTUNITY: Does it make sense to hide the boundaries in a function called "add..."?
+                //     console.log("Hiding election district boundaries");
+                //     electionDistrictBorders.setStyle({
+                //         opacity: 0,
+                //         fillOpacity: 0
+                //     });
+                // }
                 break;
 
             default:
@@ -283,12 +283,13 @@ const addBordersToMap = (function () {
 
 addBordersToMap("CITY");
 addBordersToMap("COUNCIL");
-const pollingPlaceCheckbox = document.getElementById("show-polling-place");
-console.log(pollingPlaceCheckbox);
-pollingPlaceCheckbox.addEventListener("change", e => {
-    addBordersToMap("ED");
-    document.getElementById("polling-place-section").hidden = !e.target.checked; 
-});
+addBordersToMap("ED");
+// const pollingPlaceCheckbox = document.getElementById("show-polling-place");
+// console.log(pollingPlaceCheckbox);
+// pollingPlaceCheckbox.addEventListener("change", e => {
+//     addBordersToMap("ED");
+//     document.getElementById("polling-place-section").hidden = !e.target.checked; 
+// });
 
 // Geocoding
 // TODO: Use more accessible combobox
