@@ -199,6 +199,10 @@ input {
         color: var(--text);
     }
     min-width: 0;
+
+    &[type='text'] {
+        padding: 0 1rem;
+    }
 }
 
 .actions {
