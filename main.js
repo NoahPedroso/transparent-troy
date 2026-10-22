@@ -460,7 +460,7 @@ function renderDistrictInfo(districtNumber, electionDistrict) {
 
         $(".election-district-number").textContent = electionDistrict.ed;
         $(".polling-place").textContent = electionDistrict.pollingPlace;
-        $(".pp-address").textContent = electionDistrict.address;
+        $(".pp-address-line1").textContent = electionDistrict.address;
         $(".pp-city").textContent = electionDistrict.city;
         $(".pp-zip").textContent = electionDistrict.zip;
         
