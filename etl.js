@@ -8,7 +8,7 @@
  */
 
 // Constants
-const DATA_FILENAME = 'data/troy_eds.geojson';
+const DATA_FILENAME = 'data/troy_eds_101626.geojson';
 
 // Types
 /**
