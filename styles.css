@@ -64,7 +64,7 @@ main {
     grid-area: content;
 
     /* Don't let content touch the absolute edges of the viewport */
-    --main-padding: 1em;
+    --main-padding: max(1.5em, 5dvi);
     padding: 0 var(--main-padding);
 }
 
