@@ -12,10 +12,10 @@ html {
     --troy-red: #ad141e;
 
     --background: hsl(from var(--troy-blue) h s 5);
-    --text:       hsl(from var(--troy-yellow) h s l); /* contrast-color(var(--background)); */
+    --text:       hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50)); /* contrast-color(var(--background)); */
     --primary:    hsl(from var(--troy-blue) h calc(s * 0.5) calc(l + 50));
     --secondary:  hsl(from var(--primary) h calc(s * 0.8) calc(l * 0.4));
-    --accent:     var(--troy-red);
+    --accent:     hsl(from var(--troy-yellow) h s l);
 
     /* Site fonts */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -23,6 +23,10 @@ html {
 
     /* Min viewport width this site works on */
     --min-viewport-width: 320px;
+}
+
+header {
+    margin-bottom: 2rem;
 }
 
 body {
@@ -53,9 +57,6 @@ body {
         "nav     nav     nav"
         "left    content right"
         "footer  footer  footer";
-
-        /* TODO: This is jank. I really need to think about colors and text */
-        color: var(--primary)
     }
 }
 
@@ -67,16 +68,11 @@ main {
     padding: 0 var(--main-padding);
 }
 
-main > * {
-    /* Spacing */
-    margin-bottom: 0.5rem;
-}
-
 h1 {
     font-size: xxx-large;
 }
 h1,h2,h3,h4,h5,h6 {
-    color: var(--text);
+    color: var(--accent);
     text-align: center;
 }
 
@@ -129,12 +125,13 @@ p {
 }
 
 a {
-    color: var(--troy-yellow);
+    color: var(--text);
 
     /* Hover - TODO: Remove magic numbers */
     text-decoration-thickness: 0.1em;
     text-underline-offset: 0.05em;
     transition: text-underline-offset 0.1s ease-out;
+    text-decoration-color: var(--accent);
     &:hover,
     &:focus{
         text-underline-offset: 0.3em;
@@ -153,15 +150,21 @@ nav, footer {
     padding: 0.4em 0; /* TODO: Remove this magic number */
 
     /* Separate visually from content */
-    --border:  2px solid var(--text); /* TODO: Don't like using "--text for not text */
+    --border:  2px solid;
 
     &:is(nav) {
         /* Positioning - Always on the top of the screen */
+        grid-area: nav;
         position: sticky;
         top: 0;
         z-index: 1;
-        backdrop-filter: brightness(35%) blur(15px);
-        grid-area: nav;
+
+        /* Need a dark outline around text to keep AAA contrast on all backgrounds due to semi-transparent background
+            We could also drop the brightness of the backdrop-filter a ton, but this makes the nav look black
+            instead of transparent on the default dark background.
+            Manually tested by scrolling and doing contrast checks on the lightest backgrounds found */
+        backdrop-filter: brightness(85%) blur(35px);
+        text-shadow: 0 0 8px black, 0 0 8px black, 0 0 8px black;
 
         border-bottom: var(--border);
     }
@@ -177,16 +180,20 @@ button {
     width: 100%;
     min-height: 3em;
     background-color: var(--background);
-    color: var(--text);
+    color: var(--accent);
 
-    border-style: none;
-    outline: 1px solid currentColor;
+    border: 1px solid currentColor;
 
     &.primary {
-        background-color: var(--text);
+        background-color: var(--accent);
         color: var(--background);
         font-size: 30px;
         font-weight: bold;
+
+        &:hover,
+        &:focus-visible {
+            background-color: hsl(from var(--accent) h s calc(l + 10))
+        }
     }
 }
 
@@ -194,14 +201,21 @@ input {
     background-color: var(--background);
     color: var(--text);
     border-style: solid;
-    border: solid var(--text) 1px;
+    border: solid var(--accent) 1px;
     &::placeholder {
-        color: var(--text);
+        color: hsl(from var(--text) h s l / .5);
     }
     min-width: 0;
 
     &[type='text'] {
         padding: 0 1rem;
+    }
+
+    /* Chrome applies :-internal-autofill-selected with a non-overridable background.
+        There are box shadow hacks to fix it but I'm not a fan.
+        This soluton just prevents it from being STARK WHITE, still not my preferred color though.*/
+    &:autofill {
+        color-scheme: dark;
     }
 }
 
@@ -278,7 +292,6 @@ input {
     dd {
         font-size: large;
         font-weight: bold;
-        color: var(--primary);
         padding-bottom: 0.5em;
         
         /* if the description is empty OR
