@@ -185,7 +185,8 @@ let mapBounds = L.latLngBounds(
 );
 let map = L.map('map', {
     maxBounds: mapBounds,
-    minZoom: zoomLevel
+    minZoom: zoomLevel,
+    maxBoundsViscosity: 1.0
 }).setView(TROY_CENTER.geometry.coordinates.toReversed(), zoomLevel);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -427,7 +428,7 @@ function renderDistrictInfo(districtNumber, electionDistrict) {
 
     const districtObj = districtData[districtNumber];
     const infoSection = document.querySelector(".district-info section");
-    const emptyMessage = document.querySelector(".district-info p");
+    const emptyMessage = document.querySelector(".district-info > p");
     const $ = selector => infoSection.querySelector(selector);
 
     if (!districtObj) {
