@@ -16,6 +16,7 @@ Does it automatically update? Do you need to check to see if data changed period
 ### `troy_eds.geojson`
 - Source
 - Description
+    - The data is provided in a shapefile. I don't have a "server" really since this is hosted on Github Pages (for now) so I just ran it through this online converted to get it to geojson https://www.omniconvert.cloud/shapefile-to-geojson
 - Shape
 - Update Frequency
 ### `troy_eds_bad.geojson`
