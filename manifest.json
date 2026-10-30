@@ -1,0 +1,12 @@
+{
+  "name": "Transparent Troy",
+  "icons": [
+    {
+      "src": "/TT.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "https://transparenttroy.com/",
+  "display": "minimal-ui"
+}
