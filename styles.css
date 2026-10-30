@@ -184,6 +184,13 @@ button {
 
     border: 1px solid currentColor;
 
+    transition: background-color ease-in 0.1s;
+
+    &:hover,
+    &:focus-visible {
+        background-color: hsl(from var(--accent) h s calc(l - 10) / 0.1);
+    }
+
     &.primary {
         background-color: var(--accent);
         color: var(--background);
